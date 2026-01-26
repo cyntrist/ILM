@@ -6,6 +6,7 @@
       {
         "id": "b34a97b1ce70d78f",
         "type": "tabs",
+        "dimension": 74.91610738255034,
         "children": [
           {
             "id": "fdbb1c77191d66b5",
@@ -26,6 +27,7 @@
       {
         "id": "a5522c4aa707e73e",
         "type": "tabs",
+        "dimension": 25.083892617449667,
         "children": [
           {
             "id": "2cbc6ab1c83201bc",
@@ -196,7 +198,8 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "fdbb1c77191d66b5",
