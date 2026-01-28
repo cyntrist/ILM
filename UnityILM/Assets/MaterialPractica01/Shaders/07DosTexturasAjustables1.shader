@@ -1,6 +1,6 @@
-Shader "Custom/04Textura"
+Shader "Custom/07DosTexturasAjustables1"
 {
-    Properties
+Properties
     {
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
     	
@@ -28,10 +28,9 @@ Shader "Custom/04Textura"
 
                 float2 uv : TEXCOORD0;
 
-                float2 uv2 : TEXCOORD0;
+                float2 uv2 : TEXCOORD1;
 
-                float2 uv3 : TEXCOORD0;
-
+                float2 uv3 : TEXCOORD2;
             };
 
             struct Varyings
@@ -40,9 +39,9 @@ Shader "Custom/04Textura"
 
                 float2 uv : TEXCOORD0;
 
-                float2 uv2 : TEXCOORD0;
+                float2 uv2 : TEXCOORD1;
 
-                float2 uv3 : TEXCOORD0;
+                float2 uv3 : TEXCOORD2;
             };
 
             TEXTURE2D(_MainTex);
@@ -70,7 +69,7 @@ Shader "Custom/04Textura"
 
                 OUT.uv2 = TRANSFORM_TEX(IN.uv2, _SecondaryTex);
 
-                //OUT.uv3 = TRANSFORM_TEX(IN.uv3, _BlendTex);
+                OUT.uv3 = TRANSFORM_TEX(IN.uv3, _BlendTex);
 
                 return OUT;
             }
