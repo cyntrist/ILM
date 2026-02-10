@@ -1,4 +1,4 @@
-Shader "Custom/08Barras"
+Shader "Custom/02SiluetaBasica"
 {
     Properties
     {
@@ -12,7 +12,15 @@ Shader "Custom/08Barras"
 
         Pass
         {
-            HLSLPROGRAM
+            Name "Pasada1"
+            // Cull Front
+            // Cull Off 
+            // if (...) 
+            //      discard;
+            Cull Front
+            Tags { "LightMode" = "UniversalForward" }
+        	
+        	HLSLPROGRAM
 
             #pragma vertex vert
             #pragma fragment frag
@@ -42,19 +50,23 @@ Shader "Custom/08Barras"
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz * 1.05)  ;
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
-                return float4(1,0,0,1);
+                half4 color = float4(0,0,0,1);
+                return color;
             }
             ENDHLSL
         }
+        
         Pass
         {
+            Name "Pasada2"
+            
             HLSLPROGRAM
 
             #pragma vertex vert
@@ -92,12 +104,8 @@ Shader "Custom/08Barras"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                float x = _ScreenParams.x;
-                if (IN.positionHCS.x * x % 3 == 0)
-                {
-	                return float4(1.,1.,0.,1.);
-                } 
-                return float4(0.,0.,0.,1.);
+                half4 color = float4(1,0,0,1);
+                return color;
             }
             ENDHLSL
         }
