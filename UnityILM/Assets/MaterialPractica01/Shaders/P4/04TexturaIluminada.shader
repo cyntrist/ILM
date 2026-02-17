@@ -8,7 +8,8 @@ Shader "Custom/04TexturaIluminada"
     	[FresnelPower] _FresnelPower("Fresnel Power", float) = 10 // 
     	
     	_Tiling("Tiling", float) = 1.0
-    	
+    	_OcclusionMap("Occlusion", 2D) = "white" {}
+
         [MainTexture] _BaseMap("Base Map (RGB)", 2D) = "" {}
     }
 
@@ -52,6 +53,8 @@ Shader "Custom/04TexturaIluminada"
 
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap);
+            TEXTURE2D(_OcclusionMap);
+            SAMPLER(sampler_OcclusionMap);
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
@@ -104,6 +107,20 @@ Shader "Custom/04TexturaIluminada"
                 float paso2 = pow(paso1, _FresnelPower);
                 float3 paso3 = mainLight.color * paso2;
                 float4 paso4 = float4(paso3, 1);
+
+                // use absolute value of normal as texture weights
+                half3 blend = abs(IN.normalWS);
+                // make sure the weights sum up to 1 (divide by sum of x+y+z)
+                blend /= dot(blend,1.0);
+                // read the three texture projections, for x,y,z axes
+                fixed4 cx = tex2D(_MainTex, IN.coords.yz);
+                fixed4 cy = tex2D(_MainTex, IN.coords.xz);
+                fixed4 cz = tex2D(_MainTex, IN.coords.xy);
+                // blend the textures based on weights
+                fixed4 c = cx * blend.x + cy * blend.y + cz * blend.z;
+                // modulate by regular occlusion map
+                c *= tex2D(_OcclusionMap, IN.uv);
+                return c;
 
                 return color + paso4;
             }
