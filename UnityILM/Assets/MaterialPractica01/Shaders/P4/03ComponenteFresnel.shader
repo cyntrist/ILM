@@ -77,7 +77,7 @@ Shader "Custom/03ComponenteFresnel"
                 float3 ambient = half3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
 
                 Light mainLight = GetMainLight();
-                normalize(IN.normalWS);
+                IN.normalWS = normalize(IN.normalWS);
                 float mainLightIntensity = max(0, dot(IN.normalWS, mainLight.direction));
 
                 // -- difusa
@@ -85,7 +85,7 @@ Shader "Custom/03ComponenteFresnel"
                 IN.diffuseLighting = float4(ambient + diffuse, 1);
 
                 // -- especular
-                normalize(IN.view);
+                IN.view = normalize(IN.view);
                 float3 halfVetor = normalize(mainLight.direction + IN.view);
                 float specular = max(0, dot(IN.normalWS, halfVetor));
                 specular = pow(specular, _GlossPower);
@@ -94,12 +94,12 @@ Shader "Custom/03ComponenteFresnel"
 
                 half4 color = _BaseColor * IN.diffuseLighting + IN.specularLighting;
 
-                float3 paso1 = max(0, (1-(IN.normalWS * IN.view)));
+                float3 paso1 = max(0, (1-(dot(IN.normalWS, IN.view))));
                 float3 paso2 = pow(paso1, _FresnelPower);
-                float3 paso3 = cross(color, paso2);
+                float3 paso3 = color * paso2;
                 float4 paso4 = float4(paso3, 1);
 
-                return paso4;
+                return color + paso4;
             }
             ENDHLSL
         }
