@@ -66,40 +66,38 @@ Shader "Custom/03ComponenteFresnel"
 
                 float4 positionWS = mul(unity_ObjectToWorld, IN.positionOS);
                 OUT.view = GetWorldSpaceNormalizeViewDir(positionWS.xyz);
-
+                OUT.uv = IN.uv;
                 return OUT;
             }
 
             // ps
             half4 frag(Varyings IN) : SV_Target
             {
+                IN.normalWS = normalize(IN.normalWS);
+                IN.view = normalize(IN.view); 
+
                 // -- ambiente
                 float3 ambient = half3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
 
                 Light mainLight = GetMainLight();
-                IN.normalWS = normalize(IN.normalWS);
                 float mainLightIntensity = max(0, dot(IN.normalWS, mainLight.direction));
 
                 // -- difusa
                 float3 diffuse = mainLight.color * mainLightIntensity;
-                IN.diffuseLighting = float4(ambient + diffuse, 1);
+                float4 diffuseLighting = float4(ambient + diffuse, 1);
 
                 // -- especular
-                IN.view = normalize(IN.view);
                 float3 halfVetor = normalize(mainLight.direction + IN.view);
                 float specular = max(0, dot(IN.normalWS, halfVetor));
                 specular = pow(specular, _GlossPower);
                 float3 specularColor = mainLight.color * specular;
-                IN.specularLighting = float4(specularColor, 1);
+                float4 specularLighting = float4(specularColor, 1.0);
 
-                half4 color = _BaseColor * IN.diffuseLighting + IN.specularLighting;
+                // -- fresnel
+                float3 fresnelColor = mainLight.color * pow(1- max(0, dot((IN.normalWS), IN.view)), _FresnelPower);
+                float4 fresnelLighting = float4(fresnelColor, 1.0);
 
-                float paso1 = max(0, (1-(dot(IN.normalWS, IN.view))));
-                float paso2 = pow(paso1, _FresnelPower);
-                float3 paso3 = mainLight.color * paso2;
-                float4 paso4 = float4(paso3, 1);
-
-                return color + paso4;
+                return _BaseColor * diffuseLighting + specularLighting + fresnelLighting;
             }
             ENDHLSL
         }

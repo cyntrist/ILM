@@ -19,6 +19,8 @@ Shader "Custom/04TexturaIluminada"
 
         Pass
         {
+        	Tags { "LightMode" = "UniversalForward" }
+        	
             HLSLPROGRAM
 
             #pragma vertex vert
@@ -105,14 +107,12 @@ Shader "Custom/04TexturaIluminada"
 
                 float3 color = tex2D(_BaseMap, (IN.uv + _BaseMap_ST.zw) * _BaseMap_ST.xy);
 
-                float paso1 = max(0, (1-(dot(IN.normalWS, IN.view))));
-                float paso2 = pow(paso1, _FresnelPower);
-                float3 paso3 = mainLight.color * paso2;
-                float4 paso4 = float4(paso3, 1);
+                float3 fresnelColor = mainLight.color * pow(1- max(0, dot((IN.normalWS), IN.view)), _FresnelPower);
+                float4 fresnelLighting = float4(fresnelColor, 1.0);
 
                 float4 _color = float4(color, 1);
 
-                return _color * IN.diffuseLighting + IN.specularLighting + paso4;
+                return _color * IN.diffuseLighting + IN.specularLighting + fresnelLighting;
             }
             ENDHLSL
         }
