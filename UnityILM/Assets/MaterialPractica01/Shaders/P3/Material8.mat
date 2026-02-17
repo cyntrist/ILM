@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Material8
-  m_Shader: {fileID: 4800000, guid: dadbf8c7f9331694b8d594184fba5262, type: 3}
+  m_Shader: {fileID: 4800000, guid: 10a2746b11587b84f9ed5a0a27feadd2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -20,7 +20,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _BaseMap
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -101,6 +101,7 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
+    - _GlossPower: 200
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
@@ -119,10 +120,11 @@ Material:
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.7283019, g: 0.14153787, b: 0.14153787, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpecularColor: {r: 0.032075487, g: 0.5773585, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4989747334204353862

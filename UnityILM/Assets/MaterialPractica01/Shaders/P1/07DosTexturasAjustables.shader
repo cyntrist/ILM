@@ -40,9 +40,9 @@ Shader "Custom/04Textura"
 
                 float2 uv : TEXCOORD0;
 
-                float2 uv2 : TEXCOORD0;
+                float2 uv2 : TEXCOORD1;
 
-                float2 uv3 : TEXCOORD0;
+                float2 uv3 : TEXCOORD2;
             };
 
             TEXTURE2D(_MainTex);
