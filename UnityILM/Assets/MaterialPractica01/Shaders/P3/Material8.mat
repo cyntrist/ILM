@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Material8
-  m_Shader: {fileID: 4800000, guid: 10a2746b11587b84f9ed5a0a27feadd2, type: 3}
+  m_Shader: {fileID: 4800000, guid: edb6fa500090a324d8ddfa10f444a6d9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -100,7 +100,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FresnelPower: 10
+    - _FresnelPower: 8
     - _GlossMapScale: 0
     - _GlossPower: 200
     - _Glossiness: 0
