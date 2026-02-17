@@ -1,4 +1,4 @@
-Shader "Custom/04TexturaIluminada"
+Shader "Custom/03ComponenteFresnel"
 {
     Properties
     {
@@ -7,10 +7,7 @@ Shader "Custom/04TexturaIluminada"
     	[GlossPower] _GlossPower("Gloss Power", float) = 100 // 
     	[FresnelPower] _FresnelPower("Fresnel Power", float) = 10 // 
     	
-    	//[Tiling] _Tiling("Tiling", float) = 1.0
-    	//[Offset] _Tiling("Tiling", float) = 1.0
-
-        [MainTexture] _BaseMap("Base Map (RGB)", 2D) = "" {}
+        [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
     }
 
     SubShader
@@ -26,8 +23,6 @@ Shader "Custom/04TexturaIluminada"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-
-            float4 _BaseMap_ST;
 
             struct Attributes
             {
@@ -47,24 +42,18 @@ Shader "Custom/04TexturaIluminada"
 
                 float3 normalWS : TEXCOORD2;
                 float3 view : TEXCOORD3;
-
-                float3 coords : TEXCOORD4;
             };
 
-            //float _Tiling;
-            //float4 _BaseMap_ST;
-
-            //TEXTURE2D(_BaseMap);
-            //SAMPLER(sampler_BaseMap);
+            TEXTURE2D(_BaseMap);
+            SAMPLER(sampler_BaseMap);
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
                 half4 _SpecularColor;
-                //float4 _BaseMap_ST;
-				sampler2D _BaseMap;
+                float4 _BaseMap_ST;
                 float _GlossPower;
                 float _FresnelPower;
-            CBUFFER_END;
+            CBUFFER_END
 
             // vs
             Varyings vert(Attributes IN)
@@ -72,12 +61,12 @@ Shader "Custom/04TexturaIluminada"
                 Varyings OUT;
 
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
-                //OUT.coords = OUT.positionHCS * _Tiling;
+
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normal);
 
                 float4 positionWS = mul(unity_ObjectToWorld, IN.positionOS);
                 OUT.view = GetWorldSpaceNormalizeViewDir(positionWS.xyz);
-                OUT.uv = IN.uv;
+
                 return OUT;
             }
 
@@ -103,16 +92,14 @@ Shader "Custom/04TexturaIluminada"
                 float3 specularColor = mainLight.color * specular;
                 IN.specularLighting = float4(specularColor, 1);
 
-                float3 color = tex2D(_BaseMap, (IN.uv + _BaseMap_ST.zw) * _BaseMap_ST.xy);
+                half4 color = _BaseColor * IN.diffuseLighting + IN.specularLighting;
 
                 float paso1 = max(0, (1-(dot(IN.normalWS, IN.view))));
                 float paso2 = pow(paso1, _FresnelPower);
                 float3 paso3 = mainLight.color * paso2;
                 float4 paso4 = float4(paso3, 1);
 
-                float4 _color = float4(color, 1);
-
-                return _color * IN.diffuseLighting + IN.specularLighting + paso4;
+                return color + paso4;
             }
             ENDHLSL
         }
