@@ -75,7 +75,7 @@ Shader "Custom/02IluminacionPorPixel"
                 float3 ambient = half3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
 
                 Light mainLight = GetMainLight();
-                normalize(IN.normalWS);
+                IN.normalWS = normalize(IN.normalWS);
                 float mainLightIntensity = max(0, dot(IN.normalWS, mainLight.direction));
 
                 // -- difusa
@@ -83,7 +83,7 @@ Shader "Custom/02IluminacionPorPixel"
                 IN.diffuseLighting = float4(ambient + diffuse, 1);
 
                 // -- especular
-                normalize(IN.view);
+                IN.view = normalize(IN.view);
                 float3 halfVetor = normalize(mainLight.direction + IN.view);
                 float specular = max(0, dot(IN.normalWS, halfVetor));
                 specular = pow(specular, _GlossPower);
