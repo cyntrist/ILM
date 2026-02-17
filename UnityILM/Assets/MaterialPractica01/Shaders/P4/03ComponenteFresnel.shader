@@ -94,13 +94,12 @@ Shader "Custom/03ComponenteFresnel"
 
                 half4 color = _BaseColor * IN.diffuseLighting + IN.specularLighting;
 
-                float3 paso1 = (1-IN.normalWS) * IN.view;
+                float3 paso1 = max(0, (1-(IN.normalWS * IN.view)));
                 float3 paso2 = pow(paso1, _FresnelPower);
                 float3 paso3 = cross(color, paso2);
-
                 float4 paso4 = float4(paso3, 1);
 
-                return color + paso4;
+                return paso4;
             }
             ENDHLSL
         }
