@@ -1,14 +1,22 @@
-Shader "Custom/02ColorFijo"
+Shader "02ColorFijo"
 {
     Properties
     {
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
-        [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
+        // [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
+        [IntRange] _StencilRef("Stencil Ref", Range(0, 255)) = 1
     }
 
     SubShader
     {
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+
+        Stencil {
+            Ref[_StencilRef]
+            Comp Equal
+            Pass Keep
+            Fail Keep
+        }
 
         Pass
         {
@@ -18,6 +26,7 @@ Shader "Custom/02ColorFijo"
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTexture.hlsl"
 
             struct Attributes
             {
