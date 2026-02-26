@@ -1,14 +1,17 @@
-Shader "01FrameEnCubo"
+Shader "Unlit/01FrameEnCubo"
 {
     Properties
     {
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
-        // [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
     }
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+        Tags { 
+            "RenderType" = "Opaque" 
+            "Queue" = "Transparent-1"
+            "RenderPipeline" = "UniversalPipeline" 
+            }
 
         Pass
         {
@@ -50,10 +53,7 @@ Shader "01FrameEnCubo"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // half4 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
-                float3 c = SampleSceneColor(IN.uv);
-                float4 color = float4(c.x, c.y, c.z, 1.0);
-                return color;
+                return float4(SampleSceneColor(IN.uv), 1.0f);
             }
             ENDHLSL
         }
