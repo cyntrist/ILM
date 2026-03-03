@@ -1,12 +1,12 @@
-Shader "Custom/05Ruido"
+Shader "Custom/02Glitch"
 {
     Properties
     {
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
-    	_NoiseScale("Nosie Scale", float) = 20
-
-        [IntRange] _MaxDesplX("Maximo glitch horizontal (pixeles)", Range(0, 100)) = 10
+    	
+    	// glitch
+    	[IntRange] _MaxDesplX("Maximo glitch horizontal (pixeles)", Range(0, 100)) = 10
     }
 
     SubShader
@@ -58,6 +58,8 @@ Shader "Custom/05Ruido"
             {
                 float4 positionHCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
+
+                float4 pos : TEXCOORD1;
             };
 
             TEXTURE2D(_BaseMap);
@@ -66,7 +68,7 @@ Shader "Custom/05Ruido"
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
                 float4 _BaseMap_ST;
-				float _NoiseScale;
+				int _MaxDesplX;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -74,15 +76,28 @@ Shader "Custom/05Ruido"
                 Varyings OUT;
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
+
+                OUT.pos = ComputeScreenPos(TransformObjectToHClip(IN.positionOS.xyz));
+
+                float scale = _Time.w - trunc(_Time.w);
+                scale = clamp(scale, 0, _MaxDesplX);
+
+                float2 screenUV = OUT.pos / OUT.pos.w;
+                float2 screenXY = screenUV * _ScreenParams.xy;
+
+                if (screenXY.y % 4 == 1)
+                {
+            		OUT.positionHCS.x += 0.5;
+                    //float movimiento;
+					//Unity_GradientNoise_float(OUT.uv, scale, movimiento);
+                }
+
                 return OUT;
             }
 
             half4 frag(Varyings IN) : SV_Target
             {
-                //half4 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
-                float color;
-                Unity_GradientNoise_float(IN.uv, _NoiseScale, color);
-                return float4(color, color, color, 1);
+            	return _BaseColor;
             }
             ENDHLSL
         }
