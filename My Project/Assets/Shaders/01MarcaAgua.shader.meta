@@ -4,7 +4,7 @@ ShaderImporter:
   externalObjects: {}
   defaultTextures:
   - _BaseMap: {fileID: 2800000, guid: a818b26825100744fbbd9e007d8b93ee, type: 3}
-  - _BlitTexture: {fileID: 2800000, guid: a818b26825100744fbbd9e007d8b93ee, type: 3}
+  - _BlitTexture: {instanceID: 0}
   nonModifiableTextures: []
   userData: 
   assetBundleName: 

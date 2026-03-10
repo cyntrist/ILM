@@ -3,7 +3,8 @@ Shader "Custom/01MarcaAgua"
     Properties
     {
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
-        [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
+        [MainTexture] _BaseMap("Base Map", 2D) = "" {}
+        // [MainTexture] _BlitTexture("Blit Texture", 2D) = "white" {}
     }
 
     SubShader
@@ -31,7 +32,8 @@ Shader "Custom/01MarcaAgua"
 
             half4 frag(Varyings input) : SV_Target
             {
-                return SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_BlitTexture, input.texcoord);
+                // return 1 - SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_BlitTexture, input.texcoord);
+                return  SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_BlitTexture, input.texcoord) + SAMPLE_TEXTURE2D_X(_BaseMap, sampler_BaseMap, input.texcoord);
             }
             ENDHLSL
         }
