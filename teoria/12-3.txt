@@ -1,0 +1,131 @@
+las render features "inyectan" una o más render passes
+y una render pass puede crear o inyectar uno o varios nodos
+en un punto de inyección 
+
+- para ver el api infame -
+ejemplo 1:
+creamos un nuevo recurso (textura) y con un nodo hacemos una copia del color buffer en esa textura
+
+cuando queremos hacer una copia tal cual (sin tocar nada, por pequeño que sea) no tenemos que usar una pasada de blit ya que será más costoso y está preparado para cambios, usamos pues una pasada de copia
+
+class CopyPassFeature : ScriptableRendererFeature
+{
+CopyPass m_CopyPass;
+
+// se llama a esto cada vez que se cambia algo (incluyendo en su creación)
+Create() 
+{
+	m_CopyPass = new CopyPass();
+	m_CopyPass.renderPassEvent = RenderPassEvent.BeforeRederingOpaques;
+}
+
+// se llama una vez por frame
+AddRenderPasses(ScriptableRenderer renderer, ref Renderer) 
+{
+	// 
+	renderer.EnqueuePass(m_CopyPass);
+
+// en el frame debugger aparece la etapa copy pass
+}
+}
+
+class CopyPass : ScriptableRenderPass
+{
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{
+	// frame data es un contenedor de muchas cosas, con el get coges el objeto que sea de ese tipo (solo habrá uno)
+	UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
+
+	// la textura en la que estábamos escupiendo cosas
+	var source = resourceData.activeColorTexture;
+
+	// creamos la textura/target/destino nueva
+	// le pedimos al render graph que cree una textura, un recurso que el propio render graph gestionará, será el responsable de su ciclo de vida
+	var destinationDesc = renderGraph.GetTextureDesc(source);
+	destinationDesc.name = $"Pepito-{passName}";
+	TextureHandle destination =  renderGraph.CreateTexture();
+	
+	// creamos el nodo
+	renderGraph.AddCopyPass(source, destination, passName)
+
+	// con el render graph viewer se puede ver a pepito que usa copy pass para pintarse
+}
+
+}
+
+
+ejemplo 2: textura de color plano
+
+class CreaterColorTextureFeature : ScriptableRendererFeature
+{
+CreaterColorTexturePass m_Pass;
+
+[SerializedField] private Color m_ColorRelleno = Color.magenta;
+
+// se llama a esto cada vez que se cambia algo (incluyendo en su creación)
+Create() 
+{
+	m_Pass = 
+	m_Pass.renderPassEvent = RenderPassEvent.AfterRederingOpaques;
+}
+
+// se llama una vez por frame
+AddRenderPasses(ScriptableRenderer renderer, ref Renderer) 
+{
+	
+	m_Pass.Setup(m_colorRelleno);
+	renderer.EnqueuePass(m_Pass);
+}
+}
+
+class CreaterColorTexturePass : ScriptableRenderPass
+{
+
+	Color _color;
+
+public void Setup(Color color) 
+{
+	_color = color; // me lo pasan desde la render feature
+}
+
+class PassData 
+{
+	public Color color;
+}
+
+public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+{	
+	// añadimos un nodo en el grafo y ese nodo va a recibir en su función de renderizado un pass data
+	// utilizando esto... haz lo del contexto
+	// le pasamos como queremos que se llame la pasada
+	using (var builder = renderGraph.AddRasterRenderPass<PassData>("Crear textura de color", out passData)) // devuelve un constructor de nodo, con esto se abre y luego hay que cerrarlo
+	{
+		// AQUI NO SE EJECUTA NADA, el orden de muchas de estas cosas dan igual porque aqui solo se apuntan para cuando tengan que ejecutarse
+
+		// frame data es un contenedor de muchas cosas, con el get coges el objeto que sea de ese tipo (solo habrá uno)
+		UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
+
+		// la textura en la que estábamos escupiendo cosas
+		var source = resourceData.activeColorTexture;
+
+		// creamos la textura/target/destino nueva
+		// le pedimos al render graph que cree una textura, un recurso que el propio render graph gestionará, será el responsable de su ciclo de vida
+		var destinationDesc = renderGraph.GetTextureDesc(source);
+		destinationDesc.name = $"OtroPepito-{passName}";
+		TextureHandle destination =  renderGraph.CreateTexture(destinationDesc);
+
+		builder.SetRenderAttachment(destination, 0);
+
+		builder.setRenderFunc<PassData>(ExecutePass); // le decimos que funcion queremos que se use para renderizar
+		data.color = _color; // lo que nosotros pongamos aqui terminara en el ExecutePass
+
+		builder.AllowPassCulling(false); // forzamos al render graph para que no elimine la pasada, ya que si no se usa la pasada el render graph la eliminará por eficiencia
+	}
+	
+}
+
+static void ExecutePass(PassData data, RasterGraphContext context)
+{
+	context.cmd.ClearRenderTarget(true, true, data.color);
+}
