@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de640fe3d0db1804a85f9fc8f5cadab6, type: 3}
-  m_Name: 01CopyPass_Renderer
+  m_Name: 03MyCopyPass_Renderer
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalRendererData
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
@@ -25,8 +25,8 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 0}
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
-  - {fileID: 1401578783901594098}
-  m_RendererFeatureMap: f2b12d637a687313
+  - {fileID: 9078673053998454203}
+  m_RendererFeatureMap: bb157daf0aedfd7d
   m_UseNativeRenderPass: 0
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -55,7 +55,7 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &1401578783901594098
+--- !u!114 &9078673053998454203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,8 +64,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7faff5f95b5a61c448c83a25a529a1a0, type: 3}
-  m_Name: CopyPassFeature
-  m_EditorClassIdentifier: Assembly-CSharp::CopyPassFeature
+  m_Script: {fileID: 11500000, guid: 6a9948ef6a577f04397c3e9f09954614, type: 3}
+  m_Name: MyCopyPassFeature
+  m_EditorClassIdentifier: Assembly-CSharp::MyCopyPassFeature
   m_Active: 1
-  _renderPassEvent: 250
+  _renderPassEvent: 400
