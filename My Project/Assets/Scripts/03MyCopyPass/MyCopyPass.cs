@@ -44,8 +44,6 @@ class MyCopyPass : ScriptableRenderPass
 
     static void ExecutePass(PassData data, RasterGraphContext context)
     {
-        //context.cmd.ClearRenderTarget(true, true, data);
-
         UnityEngine.Vector4 scale_offset = new UnityEngine.Vector4(1.0f, 1.0f, 0.0f, 0.0f);
         Blitter.BlitTexture(context.cmd, data.destination, scale_offset, 0, false);
     }
