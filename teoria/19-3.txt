@@ -1,0 +1,6 @@
+ejemplo 7:
+
+rendererlist es una lista de objetos a dibujar, si esta vacia el pass se descarta
+cullresults es un objeto que estamos recibiendo, es el filtrado de objetos que son visibles todavía después de la etapa de culling
+
+

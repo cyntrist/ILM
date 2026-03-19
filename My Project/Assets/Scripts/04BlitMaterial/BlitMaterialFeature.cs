@@ -23,6 +23,9 @@ public class BlitMaterialFeature : ScriptableRendererFeature
     // se llama una vez por frame
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
+        if (_material == null)
+            return; 
+
         m_BlitMaterialPass.Setup(_material);
         renderer.EnqueuePass(m_BlitMaterialPass);
     }

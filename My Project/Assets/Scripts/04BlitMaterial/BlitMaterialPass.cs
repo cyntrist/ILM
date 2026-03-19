@@ -34,7 +34,6 @@ public class BlitMaterialPass : ScriptableRenderPass
         TextureHandle destination = renderGraph.CreateTexture(destinationDesc);
 
         // creamos el nodo
-        //renderGraph.AddCopyPass(source, destination, passName);
 
         if (_material != null)
         {
@@ -48,6 +47,7 @@ public class BlitMaterialPass : ScriptableRenderPass
             renderGraph.AddBlitPass(blitParams, passName);
         }
 
+        renderGraph.AddCopyPass(source, destination, passName);
         // con el render graph viewer se puede ver a CopyPass-Pr8 que usa copy pass para pintarse
     }
 
