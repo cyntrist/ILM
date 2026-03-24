@@ -1,0 +1,8 @@
+Shader.Find("Hidden/BYN")
+CoreUtils.CreateEngineMaterial(shader)
+
+CoreUtils.Dispoes(material)
+override Dispose
+
+int id = Shader.PropertyToTid("_Param")
+material.SetFloat(id)
