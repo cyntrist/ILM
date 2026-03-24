@@ -57,6 +57,8 @@ class BlancoYNegroPass : ScriptableRenderPass
             destinationDesc.name = $"BlancoYNegro-{passName}";
             TextureHandle destination = renderGraph.CreateTexture(destinationDesc);
 
+
+
             builder.SetRenderAttachment(destination, 0, AccessFlags.Write);
             builder.SetRenderFunc<PassData>(ExecutePass); // le decimos que funcion queremos que se use para renderizar
 
