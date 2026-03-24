@@ -3,6 +3,12 @@ CoreUtils.CreateEngineMaterial(shader)
 
 CoreUtils.Dispoes(material)
 override void Dispose(bool)
+hasta aquí (lo de arriba) por render feature
 
+después, esto por render pass
 int id = Shader.PropertyToTid("_Param")
-material.SetFloat(id)
+material.SetFloat(int id, valor)
+
+para sacar el id int, se puede llamar propertytoid(nombre de parámetro) y te devuelve el id del parámetro
+
+se podría trasladar el coste de shader.find() a otro lado para que no sea en cada arranque sino en cada build? o algo así
