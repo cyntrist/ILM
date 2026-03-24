@@ -1,7 +1,7 @@
 Shader.Find("Hidden/BYN")
 CoreUtils.CreateEngineMaterial(shader)
 
-CoreUtils.Dispoes(material)
+CoreUtils.Destroy(material) --> using UnityEngine.Rendering
 override void Dispose(bool)
 hasta aquí (lo de arriba) por render feature
 
