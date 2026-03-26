@@ -1,9 +1,10 @@
-Shader "Custom/BlancoYNegro"
+Shader "BlancoYNegro"
 {
     Properties
     {
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
+        _factor("_factor", Range(0.0, 1.0)) = 0.5
     }
 
     SubShader
@@ -37,6 +38,7 @@ Shader "Custom/BlancoYNegro"
             CBUFFER_START(UnityPerMaterial)
                 half4 _BaseColor;
                 float4 _BaseMap_ST;
+				float _factor;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -50,7 +52,16 @@ Shader "Custom/BlancoYNegro"
             half4 frag(Varyings IN) : SV_Target
             {
                 half4 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
-                return color;
+
+                float intensity = (0.299 * color.r) + (0.587 * color.g) + (0.114 * color.b);
+
+                // 0 <- color // 1 -> byn
+
+                float4 byn = float4(intensity.xxx, 1.0);
+
+                float4 sol = lerp(color, byn, _factor);
+
+                return sol;
             }
             ENDHLSL
         }

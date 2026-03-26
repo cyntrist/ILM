@@ -8,9 +8,6 @@ public class BlancoYNegroFeature : ScriptableRendererFeature
 {
     private BlancoYNegroPass m_BlancoYNegroPass;
 
-    [SerializeField]
-    private RenderPassEvent _renderPassEvent;
-
     [SerializeField] [Range(0.0f, 1.0f)] private float factor = 0.5f;
 
     private Material material;
@@ -21,8 +18,11 @@ public class BlancoYNegroFeature : ScriptableRendererFeature
         m_BlancoYNegroPass = new BlancoYNegroPass();
         m_BlancoYNegroPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing; // tras post-procesado
 
-        Shader shader = Shader.Find("Hidden/BlancoYNegro");
-        material = CoreUtils.CreateEngineMaterial(shader);
+        Shader shader = Shader.Find("BlancoYNegro");
+
+        if(shader != null)
+            material = CoreUtils.CreateEngineMaterial(shader);
+
         //CoreUtils.Destroy(material);
     }
 

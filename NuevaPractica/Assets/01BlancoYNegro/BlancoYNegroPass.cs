@@ -1,22 +1,22 @@
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.RenderGraphModule;
+using UnityEngine.Rendering.RenderGraphModule.Util;
 using UnityEngine.Rendering.Universal;
 
 class BlancoYNegroPass : ScriptableRenderPass
 {
     private float _factor;
     private Material _material;
+    private int materialID;
 
     public void Setup(float factor, Material material)
     {
         _factor = factor; // me lo pasan desde la render feature
         _material = material;
-    }
 
-    public BlancoYNegroPass()
-    {
-
+        materialID = Shader.PropertyToID("_factor");
     }
 
     // This class stores the data needed by the RenderGraph pass.
@@ -25,45 +25,49 @@ class BlancoYNegroPass : ScriptableRenderPass
     {
         public float factor;
         public Material material;
+
+        public TextureHandle destination;
     }
 
-    // This static method is passed as the RenderFunc delegate to the RenderGraph render pass.
-    // It is used to execute draw commands.
     static void ExecutePass(PassData data, RasterGraphContext context)
     {
         if (data.factor <= 0)
             return;
 
-        //context.cmd.ClearRenderTarget(true, true, data.factor);
+        UnityEngine.Vector4 scale_offset = new UnityEngine.Vector4(1.0f, 1.0f, 0.0f, 0.0f);
+        Blitter.BlitTexture(context.cmd, data.destination, scale_offset, 0, false);
     }
 
-    // RecordRenderGraph is where the RenderGraph handle can be accessed, through which render passes can be added to the graph.
-    // FrameData is a context container through which URP resources can be accessed and managed.
     public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
     {
-        const string passName = "Render Custom Pass";
-
-        // This adds a raster render pass to the graph, specifying the name and the data type that will be passed to the ExecutePass function.
-        using (var builder = renderGraph.AddRasterRenderPass<PassData>(passName, out var passData))
+        // anadimos un nodo en el grafo y ese nodo va a recibir en su funcion de renderizado un pass data
+        using (var builder = renderGraph.AddRasterRenderPass<PassData>("BlancoYNegro", out var passData)) // devuelve un constructor de nodo, con esto se abre y luego hay que cerrarlo
         {
-            // Use this scope to set the required inputs and outputs of the pass and to
-            // setup the passData with the required properties needed at pass execution time.
+            // AQUI NO SE EJECUTA NADA, el orden de muchas de estas cosas dan igual porque aqui solo se apuntan para cuando tengan que ejecutarse
 
-            // Make use of frameData to access resources and camera data through the dedicated containers.
-            // Eg:
-            // UniversalCameraData cameraData = frameData.Get<UniversalCameraData>();
+            // frame data es un contenedor de muchas cosas, con el get coges el objeto que sea de ese tipo (solo habra uno)
             UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
 
-            // Setup pass inputs and outputs through the builder interface.
-            // Eg:
-            // builder.UseTexture(sourceTexture);
-            // TextureHandle destination = UniversalRenderer.CreateRenderGraphTexture(renderGraph, cameraData.cameraTargetDescriptor, "Destination Texture", false);
+            // la textura en la que estbamos escupiendo cosas
+            var source = resourceData.activeColorTexture;
 
-            // This sets the render target of the pass to the active color texture. Change it to your own render target as needed.
-            builder.SetRenderAttachment(resourceData.activeColorTexture, 0);
+            // creamos la textura/target/destino nueva
+            // le pedimos al render graph que cree una textura, un recurso que el propio render graph gestionara, sera el responsable de su ciclo de vida
+            var destinationDesc = renderGraph.GetTextureDesc(source);
+            destinationDesc.name = $"BlancoYNegro-{passName}";
+            TextureHandle destination = renderGraph.CreateTexture(destinationDesc);
 
-            // Assigns the ExecutePass function to the render pass delegate. This will be called by the render graph when executing the pass.
-            builder.SetRenderFunc((PassData data, RasterGraphContext context) => ExecutePass(data, context));
+
+
+            builder.SetRenderAttachment(destination, 0, AccessFlags.Write);
+            builder.SetRenderFunc<PassData>(ExecutePass); // le decimos que funcion queremos que se use para renderizar
+
+            _material.SetFloat(materialID, _factor);
+            passData.material = _material; // lo que nosotros pongamos aqui terminara en el ExecutePass
+
+            passData.destination = source;
+
+            builder.AllowPassCulling(false); // forzamos al render graph para que no elimine la pasada, ya que si no se usa la pasada el render graph la eliminara por eficiencia
         }
     }
 }
