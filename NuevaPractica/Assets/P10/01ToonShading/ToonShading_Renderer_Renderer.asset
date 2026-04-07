@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ToonShadingFeature
   m_EditorClassIdentifier: Assembly-CSharp::ToonShadingFeature
   m_Active: 1
+  _toonMaterial: {fileID: 2100000, guid: ba8c5e87395c8524ea059a1583d5c50e, type: 2}
   factor: 7
 --- !u!114 &11400000
 MonoBehaviour:

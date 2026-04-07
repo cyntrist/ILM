@@ -27,13 +27,17 @@ public class ToonShadingFeature : ScriptableRendererFeature
         if (factor == 0) return;
 
         Shader s = Shader.Find("Hidden/Toon");
-        _toonMaterial = CoreUtils.CreateEngineMaterial(s);
 
-        if (_toonMaterial == null)
+        if (s != null)
         {
-            return;
-        }
+            _toonMaterial = CoreUtils.CreateEngineMaterial(s);
 
-        m_ToonShadingPass.Setup(factor, _toonMaterial);
+            if (_toonMaterial == null)
+            {
+                return;
+            }
+
+            m_ToonShadingPass.Setup(factor, _toonMaterial);
+        }
     }
 }
