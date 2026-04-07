@@ -19,21 +19,21 @@ public class CreateTexturePass : ScriptableRenderPass
 
     public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
     {
-        // añadimos un nodo en el grafo y ese nodo va a recibir en su función de renderizado un pass data
+        // aï¿½adimos un nodo en el grafo y ese nodo va a recibir en su funciï¿½n de renderizado un pass data
         // utilizando esto... haz lo del contexto
         // le pasamos como queremos que se llame la pasada
         using (var builder = renderGraph.AddRasterRenderPass<PassData>("Crear textura de color", out var passData)) // devuelve un constructor de nodo, con esto se abre y luego hay que cerrarlo
         {
             // AQUI NO SE EJECUTA NADA, el orden de muchas de estas cosas dan igual porque aqui solo se apuntan para cuando tengan que ejecutarse
 
-            // frame data es un contenedor de muchas cosas, con el get coges el objeto que sea de ese tipo (solo habrá uno)
+            // frame data es un contenedor de muchas cosas, con el get coges el objeto que sea de ese tipo (solo habrï¿½ uno)
             UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
 
-            // la textura en la que estábamos escupiendo cosas
+            // la textura en la que estï¿½bamos escupiendo cosas
             var source = resourceData.activeColorTexture;
 
             // creamos la textura/target/destino nueva
-            // le pedimos al render graph que cree una textura, un recurso que el propio render graph gestionará, será el responsable de su ciclo de vida
+            // le pedimos al render graph que cree una textura, un recurso que el propio render graph gestionarï¿½, serï¿½ el responsable de su ciclo de vida
             var destinationDesc = renderGraph.GetTextureDesc(source);
             destinationDesc.name = $"02ColorPlano-Pr8-{passName}";
             TextureHandle destination = renderGraph.CreateTexture(destinationDesc);
@@ -43,7 +43,7 @@ public class CreateTexturePass : ScriptableRenderPass
 
             passData.color = _color; // lo que nosotros pongamos aqui terminara en el ExecutePass
 
-            builder.AllowPassCulling(false); // forzamos al render graph para que no elimine la pasada, ya que si no se usa la pasada el render graph la eliminará por eficiencia
+            builder.AllowPassCulling(false); // forzamos al render graph para que no elimine la pasada, ya que si no se usa la pasada el render graph la eliminarï¿½ por eficiencia
         }
 
     }

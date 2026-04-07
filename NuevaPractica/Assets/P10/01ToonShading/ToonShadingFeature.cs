@@ -6,6 +6,7 @@ using UnityEngine.Rendering.RenderGraphModule;
 
 public class ToonShadingFeature : ScriptableRendererFeature
 {
+    [SerializeField] private Material _toonMaterial;
     [SerializeField] [Range(0, 10)] private int factor = 7;
     private ToonShadingPass m_ToonShadingPass;
 
@@ -15,9 +16,24 @@ public class ToonShadingFeature : ScriptableRendererFeature
         m_ToonShadingPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
     }
 
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        CoreUtils.Destroy(_toonMaterial);
+    }
+
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {
-        m_ToonShadingPass.Setup(factor);
-        renderer.EnqueuePass(m_ToonShadingPass);
+        if (factor == 0) return;
+
+        Shader s = Shader.Find("Hidden/Toon");
+        _toonMaterial = CoreUtils.CreateEngineMaterial(s);
+
+        if (_toonMaterial == null)
+        {
+            return;
+        }
+
+        m_ToonShadingPass.Setup(factor, _toonMaterial);
     }
 }
