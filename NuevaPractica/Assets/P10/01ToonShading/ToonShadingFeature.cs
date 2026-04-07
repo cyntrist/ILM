@@ -11,6 +11,7 @@ public class ToonShadingFeature : ScriptableRendererFeature
 
     public override void Create()
     {
+        m_ToonShadingPass = new ToonShadingPass();
         m_ToonShadingPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
     }
 
