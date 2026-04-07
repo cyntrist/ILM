@@ -18,7 +18,7 @@ public class ToonShadingFeature : ScriptableRendererFeature
 
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
+        //base.Dispose(disposing);
         //CoreUtils.Destroy(_toonMaterial);
     }
 

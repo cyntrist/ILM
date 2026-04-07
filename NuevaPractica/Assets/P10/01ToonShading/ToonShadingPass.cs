@@ -18,6 +18,8 @@ public class ToonShadingPass : ScriptableRenderPass
 
     public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
     {
+        Debug.Log("AAAAAAAAAAAAAAAAAAA");
+
         // UniversalResourceData es un cajon desastre de recursos
         UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
 
@@ -32,7 +34,10 @@ public class ToonShadingPass : ScriptableRenderPass
         RenderGraphUtils.BlitMaterialParameters blitParams =
             new RenderGraphUtils.BlitMaterialParameters(source, destination, _mat, 0);
 
-        renderGraph.AddBlitPass(blitParams, "ToonShadingPass");
+        var builder = renderGraph.AddBlitPass(blitParams, "ToonShadingPass");
+
         resourceData.cameraColor = destination;
+
+        builder.AllowPassCulling(false);
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ToonShadingFeature
   m_EditorClassIdentifier: Assembly-CSharp::ToonShadingFeature
   m_Active: 1
-  factor: 4
+  factor: 8
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
