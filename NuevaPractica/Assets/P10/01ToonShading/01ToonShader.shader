@@ -1,4 +1,4 @@
-Shader "Custom/01MarcaAgua"
+Shader "Custom/01ToonShader"
 {
     Properties
     {
@@ -10,7 +10,7 @@ Shader "Custom/01MarcaAgua"
         Cull Off ZWrite Off ZTest Always // No culling or depth
         Pass 
         {
-        Name "WaterMark"
+        Name "01ToonShader"
             HLSLPROGRAM
             #pragma vertex Vert // Funcion Vert en Blit . hlsl
             #pragma fragment frag
