@@ -1,57 +1,33 @@
-Shader "Custom/01ToonShader"
+Shader "Custom/01MarcaAgua"
 {
     Properties
     {
-        [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
-        [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
-        _factor("_factor", Range(1, 10)) = 7
+        [IntRange] _factor("_factor", Range(1, 10)) = 7
     }
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
-
-        Pass
+        Cull Off ZWrite Off ZTest Always // No culling or depth
+        Pass 
         {
+        Name "WaterMark"
             HLSLPROGRAM
-
-            #pragma vertex vert
+            #pragma vertex Vert // Funcion Vert en Blit . hlsl
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct Varyings
-            {
-                float4 positionHCS : SV_POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            TEXTURE2D(_BaseMap);
-            SAMPLER(sampler_BaseMap);
+            // TEXTURE2D_X ( _BlitTexture );
+            SAMPLER(sampler_BlitTexture);
 
             CBUFFER_START(UnityPerMaterial)
-                half4 _BaseColor;
-                float4 _BaseMap_ST;
                 int _factor;
             CBUFFER_END
 
-            Varyings vert(Attributes IN)
+            half4 frag(Varyings input) : SV_Target
             {
-                Varyings OUT;
-                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
-                OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
-                return OUT;
-            }
-
-            half4 frag(Varyings IN) : SV_Target
-            {
-                half4 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
+                half4 color =  SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_BlitTexture, input.texcoord);
                 int4 colorInt = color * _factor; 
                 color = colorInt / _factor;
                 return color;
