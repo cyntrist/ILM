@@ -52,8 +52,15 @@ Shader "Custom/01ToonShader"
             half4 frag(Varyings IN) : SV_Target
             {
                 half4 color = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
-                int4 colorInt = color * _factor; 
-                color = colorInt / _factor;
+                int r = color.x * _factor;
+                int g = color.y * _factor;
+                int b = color.z * _factor;
+
+                float rf = r / _factor;
+                float gf = g / _factor;
+                float bf = b / _factor;
+
+                half4 color2 = half4(rf, gf, bf, 1.0);
                 return color;
             }
             ENDHLSL
