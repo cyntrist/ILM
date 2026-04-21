@@ -5,19 +5,17 @@
 
 class Film {
 public:
-
-    Film(int x, int y, std::ostream &output) : _tamX(x), _tamY(y), _aspectRatio(1.0f*_tamX / _tamY), _out(output) {}
-
-    Film(int x, int y) : Film(x, y, std::cout) {}
+    Film(int x, int y, std::ostream& output);
+    Film(int x, int y);
 
     void AddPixel(Color color);
 
     int GetTamX() const { return _tamX; }
     int GetTamY() const { return _tamY; }
+
     float GetAspectRatio() const { return (float)_tamX / _tamY; }
 
 private:
-
     int _tamX;
     int _tamY;
 
