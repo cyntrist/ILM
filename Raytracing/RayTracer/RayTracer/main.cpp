@@ -8,8 +8,10 @@
 
 #include "Sphere.h"
 
+// listado 16 raytracing en un fin de semana para el calculo de la interseccion entre una esfera y un rayo
+
 const glm::vec3 sphere_position{ 0.0, 0.0, 1.0 };
-std::shared_ptr<Sphere> sphere();
+std::shared_ptr<Sphere> sphere = std::make_shared<Sphere>(sphere_position, 0.2);
 
 bool hit_sphere(std::shared_ptr<Sphere> sphere, const Ray& r)
 {
