@@ -6,10 +6,10 @@
 
 #include <fstream>
 
-#include "../../RayTracer/RayTracer/Sphere.h"
+#include "Sphere.h"
 
 const glm::vec3 sphere_position{ 0.0, 0.0, 1.0 };
-std::shared_ptr<Sphere> sphere() = std::make_shared
+std::shared_ptr<Sphere> sphere();
 
 bool hit_sphere(std::shared_ptr<Sphere> sphere, const Ray& r)
 {
