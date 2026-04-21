@@ -3,11 +3,11 @@
 
 #include "glm/vec3.hpp"
 #include "Film.h"
-#include "ray.hpp"
+#include "Ray.hpp"
 
-struct camera {
+struct Camera {
 
-    camera(
+    Camera(
         glm::vec3 position,
         glm::vec3 look,
         glm::vec3 up,
@@ -15,7 +15,7 @@ struct camera {
         const float fov_degrees_vertical
     );
 
-    ray get_ray(int x, int y) const;
+    Ray get_ray(int x, int y) const;
 private:
     glm::vec3 position;
     glm::vec3 delta_x;

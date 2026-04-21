@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\camera.cpp">
+    <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\Camera.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\Film.cpp">
@@ -24,27 +24,27 @@
     <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Shape.cpp">
+    <ClCompile Include="RayTracer\Material.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Sphere.cpp">
+    <ClCompile Include="RayTracer\Renderer.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
+    <ClCompile Include="RayTracer\Scene.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
+    <ClCompile Include="RayTracer\Shape.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="RayTracer\ShapeIntersection.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeIntersection.cpp">
+    <ClCompile Include="RayTracer\Sphere.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\camera.hpp">
+    <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\Camera.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\Color.h">
@@ -53,25 +53,25 @@
     <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\Film.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\ray.hpp">
+    <ClInclude Include="RayTracer\Material.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
+    <ClInclude Include="RayTracer\Renderer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Sphere.h">
+    <ClInclude Include="RayTracer\Scene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
+    <ClInclude Include="RayTracer\Shape.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
+    <ClInclude Include="RayTracer\ShapeIntersection.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="RayTracer\Sphere.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeIntersection.h">
+    <ClInclude Include="RayTracer\Ray.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

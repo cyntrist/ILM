@@ -1,8 +1,8 @@
-#include "camera.hpp"
+#include "Camera.hpp"
 #include "glm/geometric.hpp"
 #include "glm/trigonometric.hpp"
 
-camera::camera(
+Camera::Camera(
     glm::vec3 position,
     glm::vec3 look,
     glm::vec3 up,
@@ -35,10 +35,10 @@ camera::camera(
         - right * half_width_viewport + delta_y * 0.5f;
 }
 
-ray camera::get_ray(int x, int y) const {
+Ray Camera::get_ray(int x, int y) const {
     const glm::vec3 sample =
         position_top_left + delta_x * (float)x + delta_y * (float)y;
     const glm::vec3 displacement = (sample - position);
 
-    return ray{position, glm::normalize(displacement)};
+    return Ray{position, glm::normalize(displacement)};
 }
