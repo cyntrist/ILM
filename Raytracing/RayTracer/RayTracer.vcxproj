@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\Camera.cpp" />
-    <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\Film.cpp" />
-    <ClCompile Include="..\03_raytracerArregladosErrores\raytracer\main.cpp" />
+    <ClCompile Include="RayTracer\Camera.cpp" />
+    <ClCompile Include="RayTracer\Film.cpp" />
+    <ClCompile Include="RayTracer\main.cpp" />
     <ClCompile Include="RayTracer\Material.cpp" />
     <ClCompile Include="RayTracer\Renderer.cpp" />
     <ClCompile Include="RayTracer\Scene.cpp" />
@@ -30,9 +30,9 @@
     <ClCompile Include="RayTracer\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\Camera.hpp" />
-    <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\Color.h" />
-    <ClInclude Include="..\03_raytracerArregladosErrores\raytracer\Film.h" />
+    <ClInclude Include="RayTracer\Camera.hpp" />
+    <ClInclude Include="RayTracer\Color.h" />
+    <ClInclude Include="RayTracer\Film.h" />
     <ClInclude Include="RayTracer\Material.h" />
     <ClInclude Include="RayTracer\Ray.hpp" />
     <ClInclude Include="RayTracer\Renderer.h" />
@@ -125,6 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)RayTracer;$(ProjectDir);$(ProjectDir)RayTracer\glm;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

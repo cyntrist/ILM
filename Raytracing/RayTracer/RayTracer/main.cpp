@@ -2,12 +2,12 @@
 #include "glm/geometric.hpp"
 #include "Film.h"
 #include "Color.h"
-#include "camera.hpp"
+#include "Camera.hpp"
 
 #include <fstream>
 
 const glm::vec3 sphere_position{0.0, 0.0, 1.0};
-bool hit_sphere(const point3& center, double radius, const ray& r) {
+bool hit_sphere(const point3& center, double radius, const Ray& r) {
     glm::vec3 oc = center - r.origin();
     auto a = glm::dot(r.direction(), r.direction());
     auto b = -2.0 * glm::dot(r.direction(), oc);
@@ -16,7 +16,7 @@ bool hit_sphere(const point3& center, double radius, const ray& r) {
     return (discriminant >= 0);
 }
 
-Color ray_color(const ray& r) {
+Color ray_color(const Ray& r) {
     if (hit_sphere(point3(0,0,-1), 0.5, r))
         return Color(1, 0, 0);
 
@@ -30,7 +30,7 @@ int main(void) {
     Film film{800, 600, out};
     glm::vec3 unit_direction{};
 
-    const camera cam{
+    const Camera cam{
         {0.0, 0.0, 0.0},
         sphere_position,
         {0.0, 1.0, 0.0},
@@ -40,7 +40,7 @@ int main(void) {
 
     for (std::size_t y = 0; y < film.GetTamY(); ++y) {
         for (std::size_t x = 0; x < film.GetTamX(); ++x) {
-            const ray ray_primary = cam.get_ray(x, y);
+            const Ray ray_primary = cam.get_ray(x, y);
             const Color c = ray_color(ray_primary);
             film.AddPixel(c);
         }
