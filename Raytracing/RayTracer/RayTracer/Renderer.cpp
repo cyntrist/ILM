@@ -27,9 +27,10 @@ void Renderer::Render()
 
 Color Renderer::ray_color(const Ray& r)
 {
-    if (_shape->Intersect(r, 0, 1)) // TODO: usar la version de ShapeIntersection
+    InfoIntersection ii;
+    if (_shape->Intersect(r, 0, 1, ii))
     {
-        return Color(1, 0, 0);
+        return ii.m->getColor();
     }
 
     glm::vec3 unit_direction = glm::normalize(r.direction());

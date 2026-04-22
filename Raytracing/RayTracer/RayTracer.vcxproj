@@ -37,7 +37,7 @@
     <ClInclude Include="RayTracer\Renderer.h" />
     <ClInclude Include="RayTracer\Scene.h" />
     <ClInclude Include="RayTracer\Shape.h" />
-    <ClInclude Include="RayTracer\ShapeIntersection.h" />
+    <ClInclude Include="RayTracer\InfoIntersection.h" />
     <ClInclude Include="RayTracer\Sphere.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

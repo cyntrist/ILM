@@ -1,6 +1,8 @@
 #include "Sphere.h"
+#include "ray.hpp"
+#include <detail/func_geometric.inl>
 
-Sphere::Sphere(point3 center, double radius, const std::shared_ptr<Material>& material)
+Sphere::Sphere(point3 center, float radius, const std::shared_ptr<Material>& material)
 	: _center(center), _radius(radius), _material(material)
 {
 	
@@ -8,5 +10,54 @@ Sphere::Sphere(point3 center, double radius, const std::shared_ptr<Material>& ma
 
 bool Sphere::Intersect(const Ray& ray, float tMin, float tMax) const
 {
-	return false;
+    glm::vec3 oc = _center - ray.origin();
+    auto a = glm::squared_length(ray.direction()); // he "hecho" squared_length pero realmente es lo mismo que glm::dot(v, v)
+    auto h = dot(ray.direction(), oc);
+    auto c = glm::squared_length(oc) - _radius * _radius;
+
+    auto discriminant = h * h - a * c;
+    if (discriminant < 0)
+        return false;
+
+    auto sqrtd = std::sqrt(discriminant);
+
+    // Find the nearest root that lies in the acceptable range.
+    auto root = (h - sqrtd) / a;
+    if (root <= tMin || tMax <= root) {
+        root = (h + sqrtd) / a;
+        if (root <= tMin || tMax <= root)
+            return false;
+    }
+
+    return true;
+}
+
+bool Sphere::Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection& info) const
+{
+    glm::vec3 oc = _center - ray.origin();
+    auto a = glm::squared_length(ray.direction());
+    auto h = dot(ray.direction(), oc);
+    auto c = glm::squared_length(oc) - _radius * _radius;
+
+    auto discriminant = h * h - a * c;
+    if (discriminant < 0)
+        return false;
+
+    auto sqrtd = std::sqrt(discriminant);
+
+    // Find the nearest root that lies in the acceptable range.
+    auto root = (h - sqrtd) / a;
+    if (root <= tMin || tMax <= root) {
+        root = (h + sqrtd) / a;
+        if (root <= tMin || tMax <= root)
+            return false;
+    }
+
+    info.t = root;
+    info.p = ray.at(info.t);
+    info.normal = (info.p - _center) / _radius;
+
+    info.m = _material;
+
+    return true;
 }

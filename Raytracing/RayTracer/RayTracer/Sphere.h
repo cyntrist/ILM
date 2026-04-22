@@ -8,17 +8,18 @@
 class Sphere : public Shape
 {
 public:
-	Sphere(point3 center, double radius, const std::shared_ptr<Material>& material);
+	Sphere(point3 center, float radius, const std::shared_ptr<Material>& material);
 
 	point3 getCenter() const { return _center; }
-	double getRadius() const { return _radius; }
+	float getRadius() const { return _radius; }
 
 protected:
 	bool Intersect(const Ray& ray, float tMin, float tMax) const override;
+	bool Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection& info) const override;
 
 private:
 	point3 _center;
-	double _radius;
+	float _radius;
 	std::shared_ptr<Material> _material;
 };
 
