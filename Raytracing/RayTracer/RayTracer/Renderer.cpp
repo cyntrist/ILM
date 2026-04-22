@@ -18,22 +18,22 @@ void Renderer::Render()
     {
         for (std::size_t x = 0; x < _film->GetTamX(); ++x)
         {
-            const Ray ray_primary = _camera->get_ray(x, y);
-            const Color c = ray_color(ray_primary);
+            const Ray ray_primary = _camera->GetRay(x, y);
+            const Color c = RayColor(ray_primary);
             _film->AddPixel(c);
         }
     }
 }
 
-Color Renderer::ray_color(const Ray& r)
+Color Renderer::RayColor(const Ray& r)
 {
     InfoIntersection ii;
     if (_shape->Intersect(r, 0, 100, ii))
     {
-        return ii.m->getColor();
+        return ii.m->GetColor();
     }
 
-    glm::vec3 unit_direction = glm::normalize(r.direction());
+    glm::vec3 unit_direction = glm::normalize(r.Direction());
     float a = 0.5 * (unit_direction.y + 1.0);
     return (1.0f - a) * Color(1.0, 1.0, 1.0) + a * Color(0.5, 0.7, 1.0);
 }

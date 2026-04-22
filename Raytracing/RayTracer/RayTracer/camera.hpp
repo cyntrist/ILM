@@ -14,7 +14,7 @@ public:
         const std::shared_ptr<Film>& film,
         float fov_degrees_vertical);
 
-    Ray get_ray(int x, int y) const;
+    Ray GetRay(int x, int y) const;
 
 private:
     glm::vec3 position;

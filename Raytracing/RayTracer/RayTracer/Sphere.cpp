@@ -10,9 +10,9 @@ Sphere::Sphere(point3 center, float radius, const std::shared_ptr<Material>& mat
 
 bool Sphere::Intersect(const Ray& ray, float tMin, float tMax) const
 {
-    glm::vec3 oc = _center - ray.origin();
-    auto a = glm::squared_length(ray.direction()); // he "hecho" squared_length pero realmente es lo mismo que glm::dot(v, v)
-    auto h = dot(ray.direction(), oc);
+    glm::vec3 oc = _center - ray.Origin();
+    auto a = glm::squared_length(ray.Direction()); // he "hecho" squared_length pero realmente es lo mismo que glm::dot(v, v)
+    auto h = dot(ray.Direction(), oc);
     auto c = glm::squared_length(oc) - _radius * _radius;
 
     auto discriminant = h * h - a * c;
@@ -34,9 +34,9 @@ bool Sphere::Intersect(const Ray& ray, float tMin, float tMax) const
 
 bool Sphere::Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection& info) const
 {
-    glm::vec3 oc = _center - ray.origin();
-    auto a = glm::squared_length(ray.direction());
-    auto h = dot(ray.direction(), oc);
+    glm::vec3 oc = _center - ray.Origin();
+    auto a = glm::squared_length(ray.Direction());
+    auto h = dot(ray.Direction(), oc);
     auto c = glm::squared_length(oc) - _radius * _radius;
 
     auto discriminant = h * h - a * c;
@@ -54,7 +54,7 @@ bool Sphere::Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection&
     }
 
     info.t = root;
-    info.p = ray.at(info.t);
+    info.p = ray.At(info.t);
     info.normal = (info.p - _center) / _radius;
 
     info.m = _material;

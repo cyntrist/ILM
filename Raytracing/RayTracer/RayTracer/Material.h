@@ -6,7 +6,7 @@ class Material
 public: 
 	Material(Color color);
 
-	Color getColor() const
+	Color GetColor() const
 	{
 		return _color;
 	}

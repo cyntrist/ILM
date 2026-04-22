@@ -37,7 +37,7 @@ Camera::Camera(
         - right * half_width_viewport + delta_y * 0.5f;
 }
 
-Ray Camera::get_ray(int x, int y) const 
+Ray Camera::GetRay(int x, int y) const 
 {
     const glm::vec3 sample = position_top_left + delta_x * (float)x + delta_y * (float)y;
     const glm::vec3 displacement = (sample - position);

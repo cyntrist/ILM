@@ -25,7 +25,6 @@
     <ClCompile Include="RayTracer\Material.cpp" />
     <ClCompile Include="RayTracer\Renderer.cpp" />
     <ClCompile Include="RayTracer\Scene.cpp" />
-    <ClCompile Include="RayTracer\Shape.cpp" />
     <ClCompile Include="RayTracer\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
