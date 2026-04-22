@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-#include <geometric.hpp>
+#include "glm/geometric.hpp"
 
 Renderer::Renderer(std::shared_ptr<Film> film, std::shared_ptr<Camera> camera, std::shared_ptr<Shape> shape)
 	: _film(film), _camera(camera), _shape(shape)

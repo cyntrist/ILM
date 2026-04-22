@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include <cmath>
 #include "glm/geometric.hpp"
 #include "glm/trigonometric.hpp"
 

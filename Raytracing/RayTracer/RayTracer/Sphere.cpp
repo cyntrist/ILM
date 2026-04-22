@@ -1,6 +1,7 @@
 #include "Sphere.h"
 #include "ray.hpp"
-#include <detail/func_geometric.inl>
+#include <cmath>
+#include "glm/geometric.hpp"
 
 Sphere::Sphere(point3 center, float radius, const std::shared_ptr<Material>& material)
 	: _center(center), _radius(radius), _material(material)
