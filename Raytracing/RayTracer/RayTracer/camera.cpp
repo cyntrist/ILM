@@ -6,7 +6,7 @@ Camera::Camera(
     glm::vec3 position,
     glm::vec3 look,
     glm::vec3 up,
-    std::shared_ptr<Film> film,
+    const std::shared_ptr<Film>& film,
     float fov_degrees_vertical
 ) : position(position) 
 {

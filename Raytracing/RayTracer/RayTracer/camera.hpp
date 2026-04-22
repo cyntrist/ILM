@@ -1,5 +1,4 @@
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
+#pragma once
 
 #include "glm/vec3.hpp"
 #include "Film.h"
@@ -12,7 +11,7 @@ public:
         glm::vec3 position,
         glm::vec3 look,
         glm::vec3 up,
-        std::shared_ptr<Film> film,
+        const std::shared_ptr<Film>& film,
         float fov_degrees_vertical);
 
     Ray get_ray(int x, int y) const;
@@ -23,5 +22,3 @@ private:
     glm::vec3 delta_y;
     glm::vec3 position_top_left;
 };
-
-#endif
