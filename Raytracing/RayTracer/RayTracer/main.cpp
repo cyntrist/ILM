@@ -33,7 +33,7 @@ int main(void)
 {
     std::ofstream out{ "imagen.ppm" };
 
-    std::shared_ptr<Film> film = std::make_shared<Film>(1920, 1080, out);
+    std::shared_ptr<Film> film = std::make_shared<Film>(800, 600, out);
 
     glm::vec3 position = { 0.0, 0.0, 0.0 };
     glm::vec3 look = { 0.0, 0.0, 1.0 };
@@ -45,11 +45,11 @@ int main(void)
     std::shared_ptr<Material> rojo = std::make_shared<Material>(RED);
 
     std::shared_ptr<Sphere> obj3 =
-        std::make_shared<Sphere>(glm::vec3(-1, 0, -1), sphere_radius, azul);
+        std::make_shared<Sphere>(glm::vec3(1, 0, 1), sphere_radius, azul);
     std::shared_ptr<Sphere> obj2 =
-        std::make_shared<Sphere>(glm::vec3(0, 0, -2), sphere_radius * 2, amarillo);
+        std::make_shared<Sphere>(glm::vec3(0, 0, 2), sphere_radius * 2, amarillo);
     std::shared_ptr<Sphere> obj1 =
-        std::make_shared<Sphere>(glm::vec3(1, 0, -1), sphere_radius, rojo);
+        std::make_shared<Sphere>(glm::vec3(-1, 0, 1), sphere_radius, rojo);
 
     std::shared_ptr<Scene> scene = std::make_shared<Scene>();
     scene->Add(obj1); scene->Add(obj2); scene->Add(obj3);

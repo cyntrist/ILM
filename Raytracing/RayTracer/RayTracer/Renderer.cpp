@@ -28,7 +28,7 @@ void Renderer::Render()
 Color Renderer::ray_color(const Ray& r)
 {
     InfoIntersection ii;
-    if (_shape->Intersect(r, 0, 1, ii))
+    if (_shape->Intersect(r, 0, 100, ii))
     {
         return ii.m->getColor();
     }
