@@ -40,7 +40,7 @@ int main(void)
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 90.0);
 
     std::shared_ptr<Material> rojo = std::make_shared<Material>(RED);
-    std::shared_ptr<Sphere> sphere = std::make_shared<Sphere>(sphere_center, 0.5, rojo);
+    std::shared_ptr<Sphere> sphere = std::make_shared<Sphere>(sphere_position, 0.5, rojo);
 
     Renderer renderer(film, cam, sphere);
     renderer.Render();
