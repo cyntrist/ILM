@@ -27,9 +27,6 @@
     <ClCompile Include="RayTracer\Shape.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\ShapeIntersection.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="RayTracer\Sphere.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
