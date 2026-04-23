@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="RayTracer\Camera.cpp" />
     <ClCompile Include="RayTracer\Film.cpp" />
     <ClCompile Include="RayTracer\main.cpp" />
@@ -26,8 +28,11 @@
     <ClCompile Include="RayTracer\Renderer.cpp" />
     <ClCompile Include="RayTracer\Scene.cpp" />
     <ClCompile Include="RayTracer\Sphere.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="RayTracer\Camera.hpp" />
     <ClInclude Include="RayTracer\Color.h" />
     <ClInclude Include="RayTracer\Film.h" />
@@ -38,6 +43,7 @@
     <ClInclude Include="RayTracer\Shape.h" />
     <ClInclude Include="RayTracer\InfoIntersection.h" />
     <ClInclude Include="RayTracer\Sphere.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

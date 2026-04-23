@@ -11,6 +11,8 @@
 #include "Camera.hpp"
 #include <memory>
 #include <fstream>
+
+#include "DirectionalLight.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "Sphere.h"
@@ -20,28 +22,38 @@ int main(void)
 {
     std::ofstream out{ "imagen.ppm" };
 
-    std::shared_ptr<Film> film = std::make_shared<Film>(1920, 1080, out);
+    std::shared_ptr<Film> film = std::make_shared<Film>(800, 600, out);
 
-    glm::vec3 position = { 0.0, 0.0, 0.0 };
+    glm::vec3 position = { 0.0, 0.0, 3.0 };
     glm::vec3 look = { 0.0, 0.0, -1.0 };
     glm::vec3 up = { 0.0, 1.0, 0.0 };
-    std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 90.0);
+    std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 60.0);
 
     std::shared_ptr<Material> azul = std::make_shared<Material>(BLUE);
     std::shared_ptr<Material> amarillo = std::make_shared<Material>(YELLOW);
     std::shared_ptr<Material> rojo = std::make_shared<Material>(RED);
+    std::shared_ptr<Material> verde = std::make_shared<Material>(GREEN);
 
+    std::shared_ptr<Sphere> obj4 =
+        std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
     std::shared_ptr<Sphere> obj3 =
-        std::make_shared<Sphere>(glm::vec3(-1, 0, -1), 0.5f, azul);
+        std::make_shared<Sphere>(glm::vec3(-2, 0, -2), 1.0f, rojo);
     std::shared_ptr<Sphere> obj2 =
         std::make_shared<Sphere>(glm::vec3(0, 0, -2), 1.0f, amarillo);
     std::shared_ptr<Sphere> obj1 =
-        std::make_shared<Sphere>(glm::vec3(1, 0, -1), 0.5f, rojo);
+        std::make_shared<Sphere>(glm::vec3(2, 0, -2), 1.0f, azul);
 
     std::shared_ptr<Scene> scene = std::make_shared<Scene>();
-    scene->Add(obj1); scene->Add(obj2); scene->Add(obj3);
+    scene->Add(obj1); scene->Add(obj2); scene->Add(obj3); scene->Add(obj4);
 
-    Renderer renderer(film, cam, scene);
+    std::shared_ptr<World> world = std::make_shared<World>(scene);
+
+    glm::vec3 dir = { 1.0, 1.0, 0.0 };
+    std::shared_ptr<DirectionalLight> dirLight = std::make_shared<DirectionalLight>(dir, WHITE);
+
+    world->AddLight(dirLight);
+
+    Renderer renderer(film, cam, world);
     renderer.Render();
 
     return 0;

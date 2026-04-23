@@ -2,8 +2,8 @@
 
 #include "glm/geometric.hpp"
 
-Renderer::Renderer(std::shared_ptr<Film> film, std::shared_ptr<Camera> camera, std::shared_ptr<Shape> shape)
-	: _film(film), _camera(camera), _shape(shape)
+Renderer::Renderer(std::shared_ptr<Film> film, std::shared_ptr<Camera> camera, std::shared_ptr<World> world)
+	: _film(film), _camera(camera), _world(world)
 {
 
 }
@@ -28,12 +28,23 @@ void Renderer::Render()
 Color Renderer::RayColor(const Ray& r)
 {
     InfoIntersection ii;
-    if (_shape->Intersect(r, 0, 100, ii))
+    if (_world->GetScene()->Intersect(r, 0, 100, ii))
     {
-        return ii.m->GetColor();
+        Color color = ii.m->GetColor();
+
+        for (auto l : _world->GetLights())
+        {
+            color += l->Shade(r, ii);
+        }
+
+        return color;
     }
 
+    return BLACK;
+    // Skybox
+    /*
     glm::vec3 unit_direction = glm::normalize(r.Direction());
     float a = 0.5 * (unit_direction.y + 1.0);
     return (1.0f - a) * Color(1.0, 1.0, 1.0) + a * Color(0.5, 0.7, 1.0);
+	*/
 }
