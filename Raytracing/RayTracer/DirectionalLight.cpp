@@ -16,21 +16,20 @@ Color DirectionalLight::Shade(Ray r, InfoIntersection& hit)
     // -- ambiente
     Color ambient = _color;
     glm::vec3 normal = glm::normalize(hit.normal);
-    glm::vec3 mainLightIntensity = glm::max(glm::vec3(0,0,0), glm::dot(normal, _direction));
-    float f = glm::length(mainLightIntensity);
+    float lightIntensity = glm::max(0.0f, glm::dot(normal, _direction));
+
     // -- difusa
-    glm::vec3 diffuse = _color * f;
+    glm::vec3 diffuse = _color * lightIntensity;
     glm::vec3 diffuseLighting = (ambient + diffuse);
     
     // -- especular
-    //IN.view = normalize(IN.view);
-    //float3 halfVetor = normalize(mainLight.direction + IN.view);
-    //float specular = max(0, dot(IN.normalWS, halfVetor));
+    glm::vec3 view = glm::normalize(r.Direction());
+    glm::vec3 halfVector = glm::normalize(_direction + view);
+    float specular = std::max(0.0f, glm::dot(normal, halfVector));
     //specular = pow(specular, _GlossPower);
-    //float3 specularColor = mainLight.color * specular;
-    //IN.specularLighting = float4(specularColor, 1);
+    glm::vec3 specularColor = _color * specular;
 
-    ret = hit.m->GetColor() * diffuseLighting; // + specularLighting
+    ret = hit.m->GetColor() * diffuseLighting + specularColor;
 
     return ret;
 }
