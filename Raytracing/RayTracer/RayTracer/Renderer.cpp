@@ -32,13 +32,16 @@ Color Renderer::RayColor(const Ray& r)
     {
         Color color = ii.m->GetColor();
 
-        for (auto l : _world->GetLights())
+        for (auto& l : _world->GetLights())
         {
             if (l->GetShadow())
             {
-                Ray shadowRay = Ray(ii.p, l->ShadowDir(ii.p));
+                glm::vec3 origin = ii.p + ii.normal * 0.001f;
+                glm::vec3 dir = l->ShadowDir(ii.p);
 
-                if (_world->GetScene()->Intersect(shadowRay, 0, 100, ii))
+                Ray shadowRay(origin, dir);
+
+                if (_world->GetScene()->Intersect(shadowRay, 0, 100))
                 {
 	                // saltar a la siguiente geometria
                     continue;

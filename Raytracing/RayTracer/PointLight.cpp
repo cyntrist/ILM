@@ -12,7 +12,9 @@ Color PointLight::Shade(Ray r, InfoIntersection& hit)
 {
     Color ret; // color resultante
 
-    glm::vec3 _direction = hit.p - _position; // direccion desde la luz hasta el punto de colision
+    //glm::vec3 _direction = hit.p - _position; // direccion desde la luz hasta el punto de colision
+    glm::vec3 _direction = _position - hit.p; // direccion desde la luz hasta el punto de colision
+    
     float _distance = glm::squared_length(_direction);
     _direction = glm::normalize(_direction);
 
@@ -42,5 +44,5 @@ Color PointLight::Shade(Ray r, InfoIntersection& hit)
 glm::vec3 PointLight::ShadowDir(glm::vec3 position)
 {
     // direccion desde el punto de colision hasta la luz
-    return _position - position;
+    return glm::normalize(_position - position);
 }
