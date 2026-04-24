@@ -28,7 +28,7 @@ void Renderer::Render()
 Color Renderer::RayColor(const Ray& r)
 {
     InfoIntersection ii;
-    if (_world->GetScene()->Intersect(r, 0, 100, ii))
+    if (_world->GetScene()->Intersect(r, 0.001f, 100, ii))
     {
         Color color = ii.m->GetColor();
 
@@ -36,12 +36,14 @@ Color Renderer::RayColor(const Ray& r)
         {
             if (l->GetShadow())
             {
-                glm::vec3 origin = ii.p + ii.normal * 0.001f;
+                glm::vec3 origin = ii.p;
                 glm::vec3 dir = l->ShadowDir(ii.p);
+                float maxDist = glm::length(dir);
+                dir = glm::normalize(dir);
 
                 Ray shadowRay(origin, dir);
 
-                if (_world->GetScene()->Intersect(shadowRay, 0, 100))
+                if (_world->GetScene()->Intersect(shadowRay, 0.001f, maxDist))
                 {
 	                // saltar a la siguiente geometria
                     continue;

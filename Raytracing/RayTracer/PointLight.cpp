@@ -19,7 +19,7 @@ Color PointLight::Shade(Ray r, InfoIntersection& hit)
     _direction = glm::normalize(_direction);
 
     // -- ambiente
-    Color ambient = _color;
+    Color ambient = _color; 
     glm::vec3 normal = glm::normalize(hit.normal);
     float lightIntensity = glm::max(0.0f, glm::dot(normal, _direction));
 
@@ -28,7 +28,7 @@ Color PointLight::Shade(Ray r, InfoIntersection& hit)
     glm::vec3 diffuseLighting = (ambient + diffuse);
 
     // -- especular
-    glm::vec3 view = glm::normalize(-r.Direction());
+    glm::vec3 view = glm::normalize(_direction);
     glm::vec3 halfVector = glm::normalize(_direction + view);
     //glm::vec3 reflect = 2 * glm::dot(normal, _direction) * normal -_direction; // sustituir por halfVector
 
@@ -44,5 +44,5 @@ Color PointLight::Shade(Ray r, InfoIntersection& hit)
 glm::vec3 PointLight::ShadowDir(glm::vec3 position)
 {
     // direccion desde el punto de colision hasta la luz
-    return glm::normalize(_position - position);
+    return _position - position;
 }
