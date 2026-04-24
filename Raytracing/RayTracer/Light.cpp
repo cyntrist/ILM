@@ -9,3 +9,8 @@ Color Light::Shade(Ray r, InfoIntersection& hit)
 
 	return ret; 
 }
+
+glm::vec3 Light::ShadowDir(glm::vec3 position)
+{
+	return glm::vec3();
+}

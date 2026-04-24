@@ -34,6 +34,17 @@ Color Renderer::RayColor(const Ray& r)
 
         for (auto l : _world->GetLights())
         {
+            if (l->GetShadow())
+            {
+                Ray shadowRay = Ray(ii.p, l->ShadowDir(ii.p));
+
+                if (_world->GetScene()->Intersect(shadowRay, 0, 100, ii))
+                {
+	                // saltar a la siguiente geometria
+                    continue;
+                }
+            }
+
             color += l->Shade(r, ii);
         }
 

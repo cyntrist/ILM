@@ -11,6 +11,12 @@ public:
 		return _color;
 	}
 
+	float GetGlossFactor() const
+	{
+		return _glossFactor;
+	}
+
 private:
 	Color _color;
+	float _glossFactor;
 };

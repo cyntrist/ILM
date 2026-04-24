@@ -1,17 +1,20 @@
-#include "DirectionalLight.h"
+#include "PointLight.h"
 
-#include <iostream>
 #include <detail/func_geometric.inl>
 
-DirectionalLight::DirectionalLight(glm::vec3 direction, Color color)
-	: _direction(direction), _color(color)
+PointLight::PointLight(glm::vec3 position, Color color)
+	: _position(position), _color(color)
 {
-    _shadow = false;
+    _shadow = true;
 }
 
-Color DirectionalLight::Shade(Ray r, InfoIntersection& hit)
+Color PointLight::Shade(Ray r, InfoIntersection& hit)
 {
     Color ret; // color resultante
+
+    glm::vec3 _direction = hit.p - _position; // direccion desde la luz hasta el punto de colision
+    float _distance = glm::squared_length(_direction);
+    _direction = glm::normalize(_direction);
 
     // -- ambiente
     Color ambient = _color;
@@ -21,7 +24,7 @@ Color DirectionalLight::Shade(Ray r, InfoIntersection& hit)
     // -- difusa
     glm::vec3 diffuse = _color * lightIntensity;
     glm::vec3 diffuseLighting = (ambient + diffuse);
-    
+
     // -- especular
     glm::vec3 view = glm::normalize(-r.Direction());
     glm::vec3 halfVector = glm::normalize(_direction + view);
@@ -34,4 +37,10 @@ Color DirectionalLight::Shade(Ray r, InfoIntersection& hit)
     ret = hit.m->GetColor() * diffuseLighting + specularColor;
 
     return ret;
+}
+
+glm::vec3 PointLight::ShadowDir(glm::vec3 position)
+{
+    // direccion desde el punto de colision hasta la luz
+    return _position - position;
 }

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RayTracer\Camera.cpp" />
     <ClCompile Include="RayTracer\Film.cpp" />
     <ClCompile Include="RayTracer\main.cpp" />
@@ -33,6 +34,7 @@
   <ItemGroup>
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RayTracer\Camera.hpp" />
     <ClInclude Include="RayTracer\Color.h" />
     <ClInclude Include="RayTracer\Film.h" />

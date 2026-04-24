@@ -13,6 +13,7 @@
 #include <fstream>
 
 #include "DirectionalLight.h"
+#include "PointLight.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "Sphere.h"
@@ -51,7 +52,11 @@ int main(void)
     glm::vec3 dir = { 1.0, 1.0, 0.0 };
     std::shared_ptr<DirectionalLight> dirLight = std::make_shared<DirectionalLight>(dir, WHITE);
 
-    world->AddLight(dirLight);
+    glm::vec3 pos = { 2.0, 2.0, 0.0 };
+    std::shared_ptr<PointLight> pointLight = std::make_shared<PointLight>(pos, WHITE);
+
+    //world->AddLight(dirLight);
+    world->AddLight(pointLight);
 
     Renderer renderer(film, cam, world);
     renderer.Render();
