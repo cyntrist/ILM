@@ -19,33 +19,33 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RayTracer\Camera.cpp" />
+    <ClCompile Include="RayTracer\DirectionalLight.cpp" />
     <ClCompile Include="RayTracer\Film.cpp" />
+    <ClCompile Include="RayTracer\Light.cpp" />
     <ClCompile Include="RayTracer\main.cpp" />
     <ClCompile Include="RayTracer\Material.cpp" />
+    <ClCompile Include="RayTracer\PointLight.cpp" />
     <ClCompile Include="RayTracer\Renderer.cpp" />
     <ClCompile Include="RayTracer\Scene.cpp" />
     <ClCompile Include="RayTracer\Sphere.cpp" />
-    <ClCompile Include="World.cpp" />
+    <ClCompile Include="RayTracer\World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RayTracer\Camera.hpp" />
     <ClInclude Include="RayTracer\Color.h" />
+    <ClInclude Include="RayTracer\DirectionalLight.h" />
     <ClInclude Include="RayTracer\Film.h" />
+    <ClInclude Include="RayTracer\Light.h" />
     <ClInclude Include="RayTracer\Material.h" />
+    <ClInclude Include="RayTracer\PointLight.h" />
     <ClInclude Include="RayTracer\Ray.hpp" />
     <ClInclude Include="RayTracer\Renderer.h" />
     <ClInclude Include="RayTracer\Scene.h" />
     <ClInclude Include="RayTracer\Shape.h" />
     <ClInclude Include="RayTracer\InfoIntersection.h" />
     <ClInclude Include="RayTracer\Sphere.h" />
-    <ClInclude Include="World.h" />
+    <ClInclude Include="RayTracer\World.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -21,9 +21,9 @@ Color DirectionalLight::Shade(Ray r, InfoIntersection& hit)
     // -- difusa
     glm::vec3 diffuse = _color * lightIntensity;
     glm::vec3 diffuseLighting = (ambient + diffuse);
-    
+
     // -- especular
-    glm::vec3 view = glm::normalize(-r.Direction());
+    glm::vec3 view = glm::normalize(_direction);
     glm::vec3 halfVector = glm::normalize(_direction + view);
     //glm::vec3 reflect = 2 * glm::dot(normal, _direction) * normal -_direction; // sustituir por halfVector
 
