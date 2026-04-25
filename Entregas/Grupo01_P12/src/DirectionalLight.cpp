@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 
 #include <iostream>
-#include <detail/func_geometric.inl>
+#include "glm/geometric.hpp"
 
 DirectionalLight::DirectionalLight(glm::vec3 direction, Color color)
 	: _direction(direction), _color(color)
