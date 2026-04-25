@@ -18,7 +18,6 @@
 #include "Scene.h"
 #include "Sphere.h"
 
-
 int main(void)
 {
     std::ofstream out{ "imagen.ppm" };
@@ -35,6 +34,9 @@ int main(void)
     std::shared_ptr<Material> rojo = std::make_shared<Material>(RED);
     std::shared_ptr<Material> verde = std::make_shared<Material>(GREEN);
 
+    azul->SetGlossFactor(0.5);
+    amarillo->SetGlossFactor(0.5);
+    rojo->SetGlossFactor(0.5);
     verde->SetGlossFactor(0.5);
 
     std::shared_ptr<Sphere> obj4 =
