@@ -35,6 +35,8 @@ int main(void)
     std::shared_ptr<Material> rojo = std::make_shared<Material>(RED);
     std::shared_ptr<Material> verde = std::make_shared<Material>(GREEN);
 
+    verde->SetGlossFactor(0.5);
+
     std::shared_ptr<Sphere> obj4 =
         std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
     std::shared_ptr<Sphere> obj3 =
@@ -57,8 +59,8 @@ int main(void)
     glm::vec3 pos2 = { -2.0, 2.0, -3.0 };
     std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(pos2, WHITE);
 
-    world->AddLight(dirLight);
-    //world->AddLight(pointLight);
+    //world->AddLight(dirLight);
+    world->AddLight(pointLight);
     //world->AddLight(pointLight2);
 
     Renderer renderer(film, cam, world);

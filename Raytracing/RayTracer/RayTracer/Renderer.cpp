@@ -34,6 +34,16 @@ Color Renderer::RayColor(const Ray& r)
 
         for (auto& l : _world->GetLights())
         {
+            if (ii.m->GetGlossFactor() > 0)
+            {
+                glm::vec3 origin = ii.p;
+                glm::vec3 dir = ii.normal;
+                dir = glm::normalize(dir);
+
+                Ray shadowRay(origin, glm::reflect(origin, dir));
+                color += ii.m->GetGlossFactor() * RayColor(shadowRay);
+            }
+
             if (l->GetShadow())
             {
                 glm::vec3 origin = ii.p;
