@@ -16,7 +16,12 @@ public:
 		return _glossFactor;
 	}
 
+	void SetGlossFactor(float gf)
+	{
+		_glossFactor = gf;
+	}
+
 private:
 	Color _color;
-	float _glossFactor;
+	float _glossFactor = 0;
 };
