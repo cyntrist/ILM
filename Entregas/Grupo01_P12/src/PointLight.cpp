@@ -1,6 +1,6 @@
 #include "PointLight.h"
 
-#include <detail/func_geometric.inl>
+#include "glm/geometric.hpp"
 
 PointLight::PointLight(glm::vec3 position, Color color)
 	: _position(position), _color(color)
