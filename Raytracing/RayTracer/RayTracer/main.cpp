@@ -22,7 +22,7 @@ int main(void)
 {
     std::ofstream out{ "imagen.ppm" };
 
-    std::shared_ptr<Film> film = std::make_shared<Film>(800, 600, out);
+    std::shared_ptr<Film> film = std::make_shared<Film>(1920, 1080, out);
 
     glm::vec3 position = { 0.0, 0.0, 3.0 };
     glm::vec3 look = { 0.0, 0.0, -1.0 };

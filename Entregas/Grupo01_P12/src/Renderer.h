@@ -19,4 +19,7 @@ private:
 	std::shared_ptr<Film> _film;
 	std::shared_ptr<Camera> _camera;
 	std::shared_ptr<World> _world;
+
+	int _glossCalls = 0;
+	int _glossCallsMax = 10;
 };

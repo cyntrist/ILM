@@ -36,12 +36,19 @@ Color Renderer::RayColor(const Ray& r)
         {
             if (ii.m->GetGlossFactor() > 0)
             {
-                glm::vec3 origin = ii.p;
-                glm::vec3 dir = ii.normal;
-                dir = glm::normalize(dir);
+                if (_glossCalls < _glossCallsMax)
+                {
+                    glm::vec3 origin = ii.p;
+                    glm::vec3 dir = ii.normal;
+                    dir = glm::normalize(dir);
 
-                Ray shadowRay(origin, glm::reflect(origin, dir));
-                color += ii.m->GetGlossFactor() * RayColor(shadowRay);
+                    Ray shadowRay(origin, glm::reflect(origin, dir));
+
+                    _glossCalls++;
+                    color += ii.m->GetGlossFactor() * RayColor(shadowRay);
+                }
+
+                _glossCalls = 0;
             }
 
             if (l->GetShadow())
