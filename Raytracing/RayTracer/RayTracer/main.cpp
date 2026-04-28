@@ -40,8 +40,8 @@ int main(void)
     rojo->SetGlossFactor(0.5);
     verde->SetGlossFactor(0.5);
 
-    //std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, 5), glm::vec3(0, 0, 6), glm::vec3(-6, 0, 0), verde);
-    std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, 5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), verde);
+    std::shared_ptr<Quad> obj6 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(0, 0, 6), glm::vec3(-6, 0, 0), verde);
+    std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), verde);
    
     //std::shared_ptr<Sphere> obj4 = std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
 
@@ -58,6 +58,7 @@ int main(void)
     scene->Add(obj1); scene->Add(obj2); scene->Add(obj3); 
 	//scene->Add(obj4); // suelo esfera
 	scene->Add(obj5); // suelo quad
+	//scene->Add(obj6); // suelo quad
 
     std::shared_ptr<World> world = std::make_shared<World>(scene);
 

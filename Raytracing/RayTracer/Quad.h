@@ -10,11 +10,12 @@ class Quad : public Shape
 public:
 	Quad(point3 Q, glm::vec3 u, glm::vec3 v, const std::shared_ptr<Material>& material);
 
-protected:
 	bool Intersect(const Ray& ray, float tMin, float tMax) const override;
 	bool Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection& info) const override;
+protected:
 
 	virtual bool is_interior(float a, float b, InfoIntersection& info) const;
+	virtual bool is_interior(float a, float b) const;
 
 private:
 	glm::vec3 _u;
