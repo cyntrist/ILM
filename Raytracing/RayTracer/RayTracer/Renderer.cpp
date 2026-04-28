@@ -20,7 +20,7 @@ void Renderer::Render()
         {
             //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
-            const Color c = RayColor(ray_primary, 3);
+            const Color c = RayColor(ray_primary, 10);
             _film->AddPixel(c);
         }
     }
@@ -38,26 +38,6 @@ Color Renderer::RayColor(const Ray& r, int k)
 
         for (auto& l : _world->GetLights())
         {
-            //if (ii.m->GetGlossFactor() > 0)
-            //{
-            //    //if (_glossCalls < _glossCallsMax)
-            //    {
-            //        glm::vec3 hitPos = ii.p + ii.normal * 0.001f;
-            //        glm::vec3 normal = ii.normal;
-            //        normal = glm::normalize(normal);
-
-            //        glm::vec3 dir = glm::reflect(r.Direction(), normal);
-            //        dir = glm::normalize(dir);
-
-            //        Ray shadowRay(hitPos, dir);
-
-            //        _glossCalls++;
-            //        color += ii.m->GetGlossFactor() * RayColor(shadowRay, k - 1);
-            //    }
-
-            //    _glossCalls = 0;
-            //}
-
             if (l->GetShadow())
             {
                 glm::vec3 origin = ii.p;
@@ -74,6 +54,17 @@ Color Renderer::RayColor(const Ray& r, int k)
                 }
             }
             color += l->Shade(r, ii);
+        }
+        
+        if (ii.m->GetGlossFactor() > 0.0f && k > 0)
+        {
+            glm::vec3 hitPos = ii.p + ii.normal * 0.001f;
+            const glm::vec3 normal = glm::normalize(ii.normal);
+            const glm::vec3 dir = glm::reflect(glm::normalize(r.Direction()), normal);
+
+            Ray shadowRay(hitPos, dir);
+
+            color += ii.m->GetGlossFactor() * RayColor(shadowRay, k - 1);
         }
 
         return color;
