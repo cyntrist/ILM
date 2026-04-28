@@ -14,9 +14,9 @@ Renderer::~Renderer()
 
 void Renderer::Render()
 {
-    for (std::size_t y = 0; y < _film->GetTamY(); ++y)
+    for (int y = 0; y < _film->GetTamY(); ++y)
     {
-        for (std::size_t x = 0; x < _film->GetTamX(); ++x)
+        for (int x = 0; x < _film->GetTamX(); ++x)
         {
             //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
