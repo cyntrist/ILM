@@ -7,5 +7,5 @@ ConstantTexture::ConstantTexture(Color color)
 
 Color ConstantTexture::color(float u, float v) const
 {
-    return Color();
+	return _color;
 }

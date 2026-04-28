@@ -1,6 +1,8 @@
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "Sphere.h"
 #include "ray.hpp"
-#include <cmath>
 #include "glm/geometric.hpp"
 
 Sphere::Sphere(point3 center, float radius, const std::shared_ptr<Material>& material)
@@ -48,10 +50,15 @@ bool Sphere::Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection&
 
     // Find the nearest root that lies in the acceptable range.
     auto root = (h - sqrtd) / a;
-    if (root <= tMin || tMax <= root) {
+
+    if (root <= tMin || tMax <= root) 
+    {
         root = (h + sqrtd) / a;
+
         if (root <= tMin || tMax <= root)
+        {
             return false;
+        }
     }
 
     info.t = root;
@@ -60,5 +67,17 @@ bool Sphere::Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection&
 
     info.m = _material;
 
+    get_sphere_uv(info.normal, info.u, info.v);
+
     return true;
+}
+
+void Sphere::get_sphere_uv(const point3& p, float& u, float& v)
+{
+    // p: a given point on the sphere of radius one, centered at the origin.
+    auto theta = std::acos(-p.y());
+    auto phi = std::atan2(-p.z(), p.x()) + M_PI;
+
+    u = phi / (2 * M_PI);
+    v = theta / M_PI;
 }

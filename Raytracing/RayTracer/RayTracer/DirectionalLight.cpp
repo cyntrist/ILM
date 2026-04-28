@@ -27,7 +27,7 @@ Color DirectionalLight::Shade(Ray r, InfoIntersection& hit)
     specular = std::pow(specular, _glossPower);
     glm::vec3 specularColor = _color * specular;
 
-    ret = hit.m->GetColor() * diffuseLighting + specularColor;
+    ret = hit.m->GetColor(hit) * diffuseLighting + specularColor;
 
     return ret;
 }

@@ -18,6 +18,8 @@ protected:
 	bool Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection& info) const override;
 
 private:
+	static void get_sphere_uv(const point3& p, float& u, float& v);
+
 	point3 _center;
 	float _radius;
 	std::shared_ptr<Material> _material;

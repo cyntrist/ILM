@@ -20,7 +20,7 @@ void Renderer::Render()
         {
             //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
-            const Color c = RayColor(ray_primary, 2);
+            const Color c = RayColor(ray_primary, 10);
             _film->AddPixel(c);
         }
     }
@@ -34,7 +34,7 @@ Color Renderer::RayColor(const Ray& r, int k)
     if (_world->GetScene()->Intersect(r, 0.001f, 100, ii))
     {
         Color color = BLACK;
-        color += (ii.m->GetColor() * Color(0.1, 0.1, 0.1)); // Luz de ambiente cableada
+        color += (ii.m->GetColor(ii) * Color(0.1, 0.1, 0.1)); // Luz de ambiente cableada
 
         for (auto& l : _world->GetLights())
         {
@@ -70,11 +70,6 @@ Color Renderer::RayColor(const Ray& r, int k)
         return color;
     }
 
-    return BLACK;
     // Skybox
-    /*
-    glm::vec3 unit_direction = glm::normalize(r.Direction());
-    float a = 0.5 * (unit_direction.y + 1.0);
-    return (1.0f - a) * Color(1.0, 1.0, 1.0) + a * Color(0.5, 0.7, 1.0);
-	*/
+    return BLACK;
 }

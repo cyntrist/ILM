@@ -12,6 +12,8 @@
 #include <memory>
 #include <fstream>
 
+#include "CheckerTexture.h"
+#include "ConstantTexture.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "Quad.h"
@@ -29,28 +31,29 @@ int main(void)
     glm::vec3 look = { 0.0, 0.0, -1.0 };
     glm::vec3 up = { 0.0, 1.0, 0.0 };
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 60.0);
-
+    // materiales basicos
     std::shared_ptr<Material> azul = std::make_shared<Material>(BLUE);
     std::shared_ptr<Material> amarillo = std::make_shared<Material>(YELLOW);
     std::shared_ptr<Material> rojo = std::make_shared<Material>(RED);
     std::shared_ptr<Material> verde = std::make_shared<Material>(GREEN);
-
+    // gloss factor
     azul->SetGlossFactor(0.5);
     amarillo->SetGlossFactor(0.5);
     rojo->SetGlossFactor(0.5);
     verde->SetGlossFactor(0.5);
+    // texturas
+    std::shared_ptr<ConstantTexture> verde_ajdrz = std::make_shared<ConstantTexture>(GREEN);
+    std::shared_ptr<ConstantTexture> blanco_ajdrz = std::make_shared<ConstantTexture>(WHITE);
+    std::shared_ptr<CheckerTexture> ajedrez = std::make_shared<CheckerTexture>(verde_ajdrz, blanco_ajdrz, 10, 10);
+    // material con texturas
+    std::shared_ptr<Material> ajedrez_material = std::make_shared<Material>(GREEN, ajedrez);
 
-    std::shared_ptr<Quad> obj6 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(0, 0, 6), glm::vec3(-6, 0, 0), verde);
-    std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), verde);
-   
+    std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), ajedrez_material);
     std::shared_ptr<Sphere> obj4 = std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
-
     std::shared_ptr<Sphere> obj3 =
         std::make_shared<Sphere>(glm::vec3(-2, 0, -2), 1.0f, rojo);
-
     std::shared_ptr<Sphere> obj2 =
         std::make_shared<Sphere>(glm::vec3(0, 0, -2), 1.0f, amarillo);
-
     std::shared_ptr<Sphere> obj1 =
         std::make_shared<Sphere>(glm::vec3(2, 0, -2), 1.0f, azul);
 
@@ -58,7 +61,6 @@ int main(void)
     scene->Add(obj1); scene->Add(obj2); scene->Add(obj3); 
 	//scene->Add(obj4); // suelo esfera
 	scene->Add(obj5); // suelo quad
-	//scene->Add(obj6); // suelo quad
 
     std::shared_ptr<World> world = std::make_shared<World>(scene);
 
