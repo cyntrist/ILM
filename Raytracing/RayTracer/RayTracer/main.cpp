@@ -45,10 +45,12 @@ int main(void)
     std::shared_ptr<ConstantTexture> verde_ajdrz = std::make_shared<ConstantTexture>(GREEN);
     std::shared_ptr<ConstantTexture> blanco_ajdrz = std::make_shared<ConstantTexture>(WHITE);
     std::shared_ptr<CheckerTexture> ajedrez = std::make_shared<CheckerTexture>(verde_ajdrz, blanco_ajdrz, 10, 10);
+    std::shared_ptr<CheckerTexture> imaginacion = std::make_shared<CheckerTexture>(verde_ajdrz, ajedrez, 10, 10);
     // material con texturas
     std::shared_ptr<Material> ajedrez_material = std::make_shared<Material>(GREEN, ajedrez);
+    std::shared_ptr<Material> imaginacion_material = std::make_shared<Material>(GREEN, imaginacion);
 
-    std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), ajedrez_material);
+    std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), imaginacion_material);
     std::shared_ptr<Sphere> obj4 = std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
     std::shared_ptr<Sphere> obj3 =
         std::make_shared<Sphere>(glm::vec3(-2, 0, -2), 1.0f, rojo);
