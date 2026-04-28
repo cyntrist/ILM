@@ -18,6 +18,7 @@ void Renderer::Render()
     {
         for (std::size_t x = 0; x < _film->GetTamX(); ++x)
         {
+            //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
             const Color c = RayColor(ray_primary);
             _film->AddPixel(c);
@@ -39,11 +40,14 @@ Color Renderer::RayColor(const Ray& r)
             {
                 if (_glossCalls < _glossCallsMax)
                 {
-                    glm::vec3 origin = ii.p;
-                    glm::vec3 dir = ii.normal;
+                    glm::vec3 hitPos = ii.p;
+                    glm::vec3 normal = ii.normal;
+                    normal = glm::normalize(normal);
+
+                    glm::vec3 dir = glm::reflect(r.Direction(), normal);
                     dir = glm::normalize(dir);
 
-                    Ray shadowRay(origin, glm::reflect(origin, dir));
+                    Ray shadowRay(hitPos, dir);
 
                     _glossCalls++;
                     color += ii.m->GetGlossFactor() * RayColor(shadowRay);
