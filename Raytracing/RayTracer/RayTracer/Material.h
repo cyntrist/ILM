@@ -1,32 +1,16 @@
 #pragma once
-#include "Color.h"
-#include "InfoIntersection.h"
-#include "Texture.h"
-
 #include <memory>
+#include "Color.h"
+
+class InfoIntersection;
+class Texture;
 
 class Material
 {
 public: 
-	Material(Color color, const std::shared_ptr<Texture>& texture);
-	Material(Color color);
+	Material(Color color, const std::shared_ptr<Texture>& texture = nullptr);
 
-	Color GetColor() const
-	{
-		return _color;
-	}
-
-	Color GetColor(InfoIntersection& ii) const
-	{
-		if (_texture != nullptr)
-		{
-			return _texture->color(ii.u, ii.v);
-		}
-		else
-		{
-			return GetColor(); // si es nula llama al GetColor por defecto
-		}
-	}
+	Color GetColor(InfoIntersection& ii) const;
 
 	float GetGlossFactor() const
 	{
