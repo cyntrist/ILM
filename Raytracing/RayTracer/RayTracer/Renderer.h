@@ -13,7 +13,7 @@ public:
 	~Renderer();
 		
 	void Render(); // genera la escena
-	Color RayColor(const Ray& r); // devuelve el color del rayo lanzado sobre la geometria
+	Color RayColor(const Ray& r, int k); // devuelve el color del rayo lanzado sobre la geometria
 
 private:
 	std::shared_ptr<Film> _film;

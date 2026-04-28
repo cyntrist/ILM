@@ -20,14 +20,16 @@ void Renderer::Render()
         {
             //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
-            const Color c = RayColor(ray_primary);
+            const Color c = RayColor(ray_primary, 3);
             _film->AddPixel(c);
         }
     }
 }
 
-Color Renderer::RayColor(const Ray& r)
+Color Renderer::RayColor(const Ray& r, int k)
 {
+    if (k <= 0) return BLACK;
+
     InfoIntersection ii;
     if (_world->GetScene()->Intersect(r, 0.001f, 100, ii))
     {
@@ -36,25 +38,25 @@ Color Renderer::RayColor(const Ray& r)
 
         for (auto& l : _world->GetLights())
         {
-            if (ii.m->GetGlossFactor() > 0)
-            {
-                if (_glossCalls < _glossCallsMax)
-                {
-                    glm::vec3 hitPos = ii.p;
-                    glm::vec3 normal = ii.normal;
-                    normal = glm::normalize(normal);
+            //if (ii.m->GetGlossFactor() > 0)
+            //{
+            //    //if (_glossCalls < _glossCallsMax)
+            //    {
+            //        glm::vec3 hitPos = ii.p + ii.normal * 0.001f;
+            //        glm::vec3 normal = ii.normal;
+            //        normal = glm::normalize(normal);
 
-                    glm::vec3 dir = glm::reflect(r.Direction(), normal);
-                    dir = glm::normalize(dir);
+            //        glm::vec3 dir = glm::reflect(r.Direction(), normal);
+            //        dir = glm::normalize(dir);
 
-                    Ray shadowRay(hitPos, dir);
+            //        Ray shadowRay(hitPos, dir);
 
-                    _glossCalls++;
-                    color += ii.m->GetGlossFactor() * RayColor(shadowRay);
-                }
+            //        _glossCalls++;
+            //        color += ii.m->GetGlossFactor() * RayColor(shadowRay, k - 1);
+            //    }
 
-                _glossCalls = 0;
-            }
+            //    _glossCalls = 0;
+            //}
 
             if (l->GetShadow())
             {
