@@ -35,22 +35,22 @@ Color Renderer::RayColor(const Ray& r)
 
         for (auto& l : _world->GetLights())
         {
-            //if (ii.m->GetGlossFactor() > 0)
-            //{
-            //    if (_glossCalls < _glossCallsMax)
-            //    {
-            //        glm::vec3 origin = ii.p;
-            //        glm::vec3 dir = ii.normal;
-            //        dir = glm::normalize(dir);
+            if (ii.m->GetGlossFactor() > 0)
+            {
+                if (_glossCalls < _glossCallsMax)
+                {
+                    glm::vec3 origin = ii.p;
+                    glm::vec3 dir = ii.normal;
+                    dir = glm::normalize(dir);
 
-            //        Ray shadowRay(origin, glm::reflect(origin, dir));
+                    Ray shadowRay(origin, glm::reflect(origin, dir));
 
-            //        _glossCalls++;
-            //        color += ii.m->GetGlossFactor() * RayColor(shadowRay);
-            //    }
+                    _glossCalls++;
+                    color += ii.m->GetGlossFactor() * RayColor(shadowRay);
+                }
 
-            //    _glossCalls = 0;
-            //}
+                _glossCalls = 0;
+            }
 
             if (l->GetShadow())
             {
@@ -67,8 +67,7 @@ Color Renderer::RayColor(const Ray& r)
                     continue;
                 }
             }
-			color += l->Shade(r, ii);
-
+            color += l->Shade(r, ii);
         }
 
         return color;
