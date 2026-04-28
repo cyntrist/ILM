@@ -43,7 +43,7 @@ int main(void)
     std::shared_ptr<Quad> obj6 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(0, 0, 6), glm::vec3(-6, 0, 0), verde);
     std::shared_ptr<Quad> obj5 = std::make_shared<Quad>(point3(3, -1, -5), glm::vec3(-6, 0, 0), glm::vec3(0, 0, 6), verde);
    
-    //std::shared_ptr<Sphere> obj4 = std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
+    std::shared_ptr<Sphere> obj4 = std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
 
     std::shared_ptr<Sphere> obj3 =
         std::make_shared<Sphere>(glm::vec3(-2, 0, -2), 1.0f, rojo);
@@ -74,9 +74,9 @@ int main(void)
     pointLight->SetGlossPower(400);
     pointLight2->SetGlossPower(400);
 
-    world->AddLight(dirLight);
-    //world->AddLight(pointLight);
-    //world->AddLight(pointLight2);
+    //world->AddLight(dirLight);
+    world->AddLight(pointLight);
+    world->AddLight(pointLight2);
 
     Renderer renderer(film, cam, world);
     renderer.Render();

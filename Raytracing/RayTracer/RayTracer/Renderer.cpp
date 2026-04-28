@@ -20,7 +20,7 @@ void Renderer::Render()
         {
             //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
-            const Color c = RayColor(ray_primary, 10);
+            const Color c = RayColor(ray_primary, 2);
             _film->AddPixel(c);
         }
     }
