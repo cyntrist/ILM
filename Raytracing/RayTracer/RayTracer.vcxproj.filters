@@ -48,16 +48,16 @@
     <ClCompile Include="RayTracer\World.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Quad.cpp">
+    <ClCompile Include="RayTracer\Texture.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="ConstantTexture.cpp">
+    <ClCompile Include="RayTracer\Quad.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="RayTracer\ConstantTexture.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="CheckerTexture.cpp">
+    <ClCompile Include="RayTracer\CheckerTexture.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,16 +104,16 @@
     <ClInclude Include="RayTracer\World.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Quad.h">
+    <ClInclude Include="RayTracer\Texture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="ConstantTexture.h">
+    <ClInclude Include="RayTracer\Quad.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="RayTracer\ConstantTexture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="CheckerTexture.h">
+    <ClInclude Include="RayTracer\CheckerTexture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

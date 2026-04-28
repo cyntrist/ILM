@@ -19,41 +19,41 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CheckerTexture.cpp" />
-    <ClCompile Include="ConstantTexture.cpp" />
-    <ClCompile Include="Quad.cpp" />
     <ClCompile Include="RayTracer\Camera.cpp" />
+    <ClCompile Include="RayTracer\CheckerTexture.cpp" />
+    <ClCompile Include="RayTracer\ConstantTexture.cpp" />
     <ClCompile Include="RayTracer\DirectionalLight.cpp" />
     <ClCompile Include="RayTracer\Film.cpp" />
     <ClCompile Include="RayTracer\Light.cpp" />
     <ClCompile Include="RayTracer\main.cpp" />
     <ClCompile Include="RayTracer\Material.cpp" />
     <ClCompile Include="RayTracer\PointLight.cpp" />
+    <ClCompile Include="RayTracer\Quad.cpp" />
     <ClCompile Include="RayTracer\Renderer.cpp" />
     <ClCompile Include="RayTracer\Scene.cpp" />
     <ClCompile Include="RayTracer\Sphere.cpp" />
+    <ClCompile Include="RayTracer\Texture.cpp" />
     <ClCompile Include="RayTracer\World.cpp" />
-    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CheckerTexture.h" />
-    <ClInclude Include="ConstantTexture.h" />
-    <ClInclude Include="Quad.h" />
     <ClInclude Include="RayTracer\Camera.hpp" />
+    <ClInclude Include="RayTracer\CheckerTexture.h" />
     <ClInclude Include="RayTracer\Color.h" />
+    <ClInclude Include="RayTracer\ConstantTexture.h" />
     <ClInclude Include="RayTracer\DirectionalLight.h" />
     <ClInclude Include="RayTracer\Film.h" />
     <ClInclude Include="RayTracer\Light.h" />
     <ClInclude Include="RayTracer\Material.h" />
     <ClInclude Include="RayTracer\PointLight.h" />
+    <ClInclude Include="RayTracer\Quad.h" />
     <ClInclude Include="RayTracer\Ray.hpp" />
     <ClInclude Include="RayTracer\Renderer.h" />
     <ClInclude Include="RayTracer\Scene.h" />
     <ClInclude Include="RayTracer\Shape.h" />
     <ClInclude Include="RayTracer\InfoIntersection.h" />
     <ClInclude Include="RayTracer\Sphere.h" />
+    <ClInclude Include="RayTracer\Texture.h" />
     <ClInclude Include="RayTracer\World.h" />
-    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
