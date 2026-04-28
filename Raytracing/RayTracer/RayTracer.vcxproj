@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CheckerTexture.cpp" />
+    <ClCompile Include="ConstantTexture.cpp" />
+    <ClCompile Include="Quad.cpp" />
     <ClCompile Include="RayTracer\Camera.cpp" />
     <ClCompile Include="RayTracer\DirectionalLight.cpp" />
     <ClCompile Include="RayTracer\Film.cpp" />
@@ -30,8 +33,12 @@
     <ClCompile Include="RayTracer\Scene.cpp" />
     <ClCompile Include="RayTracer\Sphere.cpp" />
     <ClCompile Include="RayTracer\World.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CheckerTexture.h" />
+    <ClInclude Include="ConstantTexture.h" />
+    <ClInclude Include="Quad.h" />
     <ClInclude Include="RayTracer\Camera.hpp" />
     <ClInclude Include="RayTracer\Color.h" />
     <ClInclude Include="RayTracer\DirectionalLight.h" />
@@ -46,6 +53,7 @@
     <ClInclude Include="RayTracer\InfoIntersection.h" />
     <ClInclude Include="RayTracer\Sphere.h" />
     <ClInclude Include="RayTracer\World.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
