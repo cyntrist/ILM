@@ -35,7 +35,7 @@ Color Renderer::RayColor(const Ray& r)
 
         for (auto& l : _world->GetLights())
         {
-            if (ii.m->GetGlossFactor() > 0)
+            /*if (ii.m->GetGlossFactor() > 0)
             {
                 if (_glossCalls < _glossCallsMax)
                 {
@@ -50,7 +50,7 @@ Color Renderer::RayColor(const Ray& r)
                 }
 
                 _glossCalls = 0;
-            }
+            }*/
 
             if (l->GetShadow())
             {

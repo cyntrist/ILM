@@ -4,6 +4,6 @@
 class Texture
 {
 public:
-	virtual ~Texture();
+	virtual ~Texture() = default;
 	virtual Color color(float u, float v) const = 0;
 };
