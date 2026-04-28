@@ -7,4 +7,7 @@ struct InfoIntersection // almacena la informacion de una colision
 	glm::vec3 p; // punto posicion de la interseccion
 	glm::vec3 normal; // normal de la interseccion
 	float t; // tiempo de la distancia en el que el rayo ha producido colision, solamente devuelve la info de la primera colision (para controlar objetos encima de objetos)
+
+	float u;
+	float v;
 };

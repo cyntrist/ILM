@@ -14,6 +14,7 @@
 
 #include "DirectionalLight.h"
 #include "PointLight.h"
+#include "Quad.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "Sphere.h"
@@ -39,17 +40,24 @@ int main(void)
     rojo->SetGlossFactor(0.5);
     verde->SetGlossFactor(0.5);
 
-    std::shared_ptr<Sphere> obj4 =
-        std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
+    std::shared_ptr<Quad> obj5 = 
+        std::make_shared<Quad>(point3(3, -1, 5), glm::vec3(0, 0, 6), glm::vec3(-6, 0, 0), verde);
+
+    //std::shared_ptr<Sphere> obj4 = std::make_shared<Sphere>(glm::vec3(0, -100, -2), 99.0f, verde);
+
     std::shared_ptr<Sphere> obj3 =
         std::make_shared<Sphere>(glm::vec3(-2, 0, -2), 1.0f, rojo);
+
     std::shared_ptr<Sphere> obj2 =
         std::make_shared<Sphere>(glm::vec3(0, 0, -2), 1.0f, amarillo);
+
     std::shared_ptr<Sphere> obj1 =
         std::make_shared<Sphere>(glm::vec3(2, 0, -2), 1.0f, azul);
 
     std::shared_ptr<Scene> scene = std::make_shared<Scene>();
-    scene->Add(obj1); scene->Add(obj2); scene->Add(obj3); scene->Add(obj4);
+    scene->Add(obj1); scene->Add(obj2); scene->Add(obj3); 
+	//scene->Add(obj4); // suelo esfera
+	scene->Add(obj5); // suelo quad
 
     std::shared_ptr<World> world = std::make_shared<World>(scene);
 

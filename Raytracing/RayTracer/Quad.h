@@ -8,16 +8,23 @@
 class Quad : public Shape
 {
 public:
-	Quad(point3 bottom_left, glm::vec3 u, glm::vec3 v, const std::shared_ptr<Material>& material);
+	Quad(point3 Q, glm::vec3 u, glm::vec3 v, const std::shared_ptr<Material>& material);
 
 protected:
 	bool Intersect(const Ray& ray, float tMin, float tMax) const override;
 	bool Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection& info) const override;
 
+	virtual bool is_interior(float a, float b, InfoIntersection& info) const;
+
 private:
-	point3 _bottomLeft;
 	glm::vec3 _u;
 	glm::vec3 _v;
+	std::shared_ptr<Material> _material;
+	point3 _Q;
+
+	glm::vec3 w;
+	glm::vec3 normal;
+	float D; // dot entre la normal y Q
 
 	// v
 	// |
