@@ -18,7 +18,6 @@ void Renderer::Render()
     {
         for (std::size_t x = 0; x < _film->GetTamX(); ++x)
         {
-            std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
             const Ray ray_primary = _camera->GetRay(x, y);
             const Color c = RayColor(ray_primary);
             _film->AddPixel(c);

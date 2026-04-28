@@ -61,9 +61,13 @@ int main(void)
     glm::vec3 pos2 = { -2.0, 2.0, -3.0 };
     std::shared_ptr<PointLight> pointLight2 = std::make_shared<PointLight>(pos2, WHITE);
 
-    //world->AddLight(dirLight);
-    world->AddLight(pointLight);
-    world->AddLight(pointLight2);
+    dirLight->SetGlossPower(400);
+    pointLight->SetGlossPower(400);
+    pointLight2->SetGlossPower(400);
+
+    world->AddLight(dirLight);
+    //world->AddLight(pointLight);
+    //world->AddLight(pointLight2);
 
     Renderer renderer(film, cam, world);
     renderer.Render();
