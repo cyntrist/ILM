@@ -75,8 +75,8 @@ bool Sphere::Intersect(const Ray& ray, float tMin, float tMax, InfoIntersection&
 void Sphere::get_sphere_uv(const point3& p, float& u, float& v)
 {
     // p: a given point on the sphere of radius one, centered at the origin.
-    auto theta = std::acos(-p.y());
-    auto phi = std::atan2(-p.z(), p.x()) + M_PI;
+    float theta = std::acos(-p.y);
+    float phi = std::atan2(-p.z, p.x) + M_PI;
 
     u = phi / (2 * M_PI);
     v = theta / M_PI;
