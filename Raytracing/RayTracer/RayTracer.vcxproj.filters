@@ -15,105 +15,105 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RayTracer\Material.cpp">
+    <ClCompile Include="src\Material.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Renderer.cpp">
+    <ClCompile Include="src\Renderer.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Scene.cpp">
+    <ClCompile Include="src\Scene.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Sphere.cpp">
+    <ClCompile Include="src\Sphere.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Film.cpp">
+    <ClCompile Include="src\Film.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Camera.cpp">
+    <ClCompile Include="src\Camera.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\DirectionalLight.cpp">
+    <ClCompile Include="src\DirectionalLight.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Light.cpp">
+    <ClCompile Include="src\Light.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\PointLight.cpp">
+    <ClCompile Include="src\PointLight.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\World.cpp">
+    <ClCompile Include="src\World.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Texture.cpp">
+    <ClCompile Include="src\Texture.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\Quad.cpp">
+    <ClCompile Include="src\Quad.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\ConstantTexture.cpp">
+    <ClCompile Include="src\ConstantTexture.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="RayTracer\CheckerTexture.cpp">
+    <ClCompile Include="src\CheckerTexture.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RayTracer\Material.h">
+    <ClInclude Include="src\Material.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Renderer.h">
+    <ClInclude Include="src\Renderer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Scene.h">
+    <ClInclude Include="src\Scene.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Shape.h">
+    <ClInclude Include="src\Shape.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Sphere.h">
+    <ClInclude Include="src\Sphere.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Ray.hpp">
+    <ClInclude Include="src\Ray.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Color.h">
+    <ClInclude Include="src\Color.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Film.h">
+    <ClInclude Include="src\Film.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Camera.hpp">
+    <ClInclude Include="src\Camera.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\InfoIntersection.h">
+    <ClInclude Include="src\InfoIntersection.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\DirectionalLight.h">
+    <ClInclude Include="src\DirectionalLight.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Light.h">
+    <ClInclude Include="src\Light.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\PointLight.h">
+    <ClInclude Include="src\PointLight.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\World.h">
+    <ClInclude Include="src\World.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Texture.h">
+    <ClInclude Include="src\Texture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\Quad.h">
+    <ClInclude Include="src\Quad.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\ConstantTexture.h">
+    <ClInclude Include="src\ConstantTexture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="RayTracer\CheckerTexture.h">
+    <ClInclude Include="src\CheckerTexture.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
