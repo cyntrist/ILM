@@ -15,10 +15,12 @@ public:
 	void Render(); // genera la escena
 	Color RayColor(const Ray& r, int k); // devuelve el color del rayo lanzado sobre la geometria
 
+	void SetSamples(int samples);
+
 private:
 	std::shared_ptr<Film> _film;
 	std::shared_ptr<Camera> _camera;
 	std::shared_ptr<World> _world;
 
-	int samples; // muestras tomadas por pixeles
+	int _samples = 1; // muestras tomadas por pixeles
 };

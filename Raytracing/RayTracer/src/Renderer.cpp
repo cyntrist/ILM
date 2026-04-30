@@ -73,3 +73,8 @@ Color Renderer::RayColor(const Ray& r, int k)
     // Skybox
     return BLACK;
 }
+
+void Renderer::SetSamples(int samples)
+{
+    _samples = samples;
+}
