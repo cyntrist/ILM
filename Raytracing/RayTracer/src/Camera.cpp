@@ -1,5 +1,6 @@
 #include "Camera.hpp"
 #include <cmath>
+
 #include "glm/geometric.hpp"
 #include "glm/trigonometric.hpp"
 
@@ -66,10 +67,22 @@ Camera::Camera(glm::vec3 position, glm::vec3 look, glm::vec3 up, const std::shar
         position - focal_length * forward
         + v * half_height_viewport + delta_x * 0.5f
         - right * half_width_viewport + delta_y * 0.5f;
+
+    // desenfoque
+    _blurDegrees = 0.5;
+    float radioDesenfoque = _focalLength * tan(glm::radians(_blurDegrees) / 2);
+	desenfoqueU = pixel_height * radioDesenfoque;
+	desenfoqueV = pixel_width * radioDesenfoque;
 }
 
 Ray Camera::GetRay(int x, int y) const 
 {
+    // Aleatorio con z =0 y p . length () < 1
+    std::normal_distribution<> xDistr(0, // pixel height);
+    std::normal_distribution<> yDistr(0, // pixel height);
+    float xP = xDistr(gen);
+    float yP = yDistr(gen);
+
     const glm::vec3 sample = position_top_left + delta_x * (float)x + delta_y * (float)y;
     const glm::vec3 displacement = (sample - position);
 

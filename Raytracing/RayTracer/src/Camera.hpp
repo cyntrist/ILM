@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <random>
+
 #include "glm/vec3.hpp"
 #include "Film.h"
 #include "Ray.hpp"
@@ -32,6 +34,12 @@ private:
     glm::vec3 delta_y;
     glm::vec3 position_top_left;
 
-    float _focalLength;
-    float _blurDegrees;
+    float _focalLength; // distancia focal
+    float _blurDegrees; // angulo desenfoque
+
+    float desenfoqueU = 0;
+    float desenfoqueV = 0;
+
+    std::random_device rd{};
+    std::mt19937 gen{ rd() };
 };
