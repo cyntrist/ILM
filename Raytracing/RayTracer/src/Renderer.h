@@ -19,4 +19,6 @@ private:
 	std::shared_ptr<Film> _film;
 	std::shared_ptr<Camera> _camera;
 	std::shared_ptr<World> _world;
+
+	int samples; // muestras tomadas por pixeles
 };
