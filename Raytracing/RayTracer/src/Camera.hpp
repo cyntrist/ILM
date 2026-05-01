@@ -41,8 +41,8 @@ private:
     float _focalLength; // distancia focal
     float _blurDegrees; // angulo desenfoque
 
-    float desenfoqueU = 0;
-    float desenfoqueV = 0;
+    glm::vec3 desenfoqueU;
+    glm::vec3 desenfoqueV;
 
     glm::vec3 RandomEnCirculo() const;
 };

@@ -49,6 +49,8 @@ Camera::Camera(glm::vec3 position, glm::vec3 look, glm::vec3 up, const std::shar
     const float focal_length = glm::length(forward_displacement);
     const glm::vec3 forward = forward_displacement / focal_length;
     const glm::vec3 right = glm::cross(up, forward);
+
+    const glm::vec3 u = glm::cross(up, forward);
     const glm::vec3 v = glm::cross(forward, right);
 
     const float half_height_viewport = focal_length * half_height_normalized;
@@ -70,8 +72,9 @@ Camera::Camera(glm::vec3 position, glm::vec3 look, glm::vec3 up, const std::shar
 
     // desenfoque
     float radioDesenfoque = _focalLength * tan(glm::radians(_blurDegrees) / 2);
-	desenfoqueU = pixel_height * radioDesenfoque;
-	desenfoqueV = pixel_width * radioDesenfoque;
+
+	desenfoqueU = u * radioDesenfoque;
+	desenfoqueV = v * radioDesenfoque;
 }
 
 Ray Camera::GetRay(int x, int y) const 

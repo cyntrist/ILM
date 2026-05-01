@@ -14,14 +14,19 @@ Renderer::~Renderer()
 
 void Renderer::Render()
 {
+    float sampleCalc = 1.0f / _samples;
+
     for (int y = 0; y < _film->GetTamY(); ++y)
     {
         for (int x = 0; x < _film->GetTamX(); ++x)
         {
-            //std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
-            const Ray ray_primary = _camera->GetRay(x, y);
-            const Color c = RayColor(ray_primary, 10);
-            _film->AddPixel(c);
+            Color pixelColor = BLACK;
+            for (int i = 0; i < _samples; ++i)
+            {
+                const Ray ray_primary = _camera->GetRay(x, y); // Estocastico
+                pixelColor += RayColor(ray_primary, 10);
+            }
+            _film->AddPixel(pixelColor * sampleCalc);
         }
     }
 }

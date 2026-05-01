@@ -36,7 +36,7 @@ int main(void)
 
     std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 60.0, 
        40.0f, // distancia al plano
-        0.6f); // angulo de desenfoque
+        0.2f); // angulo de desenfoque
 
     // materiales basicos
     std::shared_ptr<Material> azul = std::make_shared<Material>(BLUE);
@@ -101,6 +101,7 @@ int main(void)
 
     // renderer
     Renderer renderer(film, cam, world);
+    renderer.SetSamples(8);
     renderer.Render();
 
     return 0;
