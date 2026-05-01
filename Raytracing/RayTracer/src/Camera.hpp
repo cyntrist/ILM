@@ -1,11 +1,15 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include <memory>
 #include <random>
 
 #include "glm/vec3.hpp"
 #include "Film.h"
 #include "Ray.hpp"
+
 
 class Camera 
 {
@@ -40,6 +44,5 @@ private:
     float desenfoqueU = 0;
     float desenfoqueV = 0;
 
-    std::random_device rd{};
-    std::mt19937 gen{ rd() };
+    glm::vec3 RandomEnCirculo() const;
 };
