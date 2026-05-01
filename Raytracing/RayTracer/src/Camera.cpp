@@ -48,11 +48,13 @@ Camera::Camera(glm::vec3 position, glm::vec3 look, glm::vec3 up, const std::shar
     const float half_height_normalized = std::tan(fov_radians_vertical);
 
     const glm::vec3 forward_displacement = position - look;
-    const float focal_length = glm::length(forward_displacement);
-    const glm::vec3 forward = forward_displacement / focal_length;
+    //const float focal_length = glm::length(forward_displacement);
+    const float focal_length = focalLength;
+    //const glm::vec3 forward = forward_displacement / focal_length;
+    const glm::vec3 forward = glm::normalize(forward_displacement);
     const glm::vec3 right = glm::cross(up, forward);
 
-    const glm::vec3 u = glm::cross(up, forward);
+    const glm::vec3 u = right;
     const glm::vec3 v = glm::cross(forward, right);
 
     const float half_height_viewport = focal_length * half_height_normalized;
@@ -73,7 +75,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 look, glm::vec3 up, const std::shar
         - right * half_width_viewport + delta_y * 0.5f;
 
     // desenfoque
-    float radioDesenfoque = _focalLength * tan(glm::radians(_blurDegrees) / 2);
+    float radioDesenfoque = _focalLength * tan(glm::radians(_blurDegrees) * 0.5f);
 
 	desenfoqueU = u * radioDesenfoque;
 	desenfoqueV = v * radioDesenfoque;
