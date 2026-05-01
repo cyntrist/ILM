@@ -10,7 +10,8 @@ Camera::Camera(
     glm::vec3 up,
     const std::shared_ptr<Film>& film,
     float fov_degrees_vertical
-) : position(position) 
+) : position(position),
+	gen(std::random_device{}())
 {
     const float fov_radians_vertical = glm::radians(fov_degrees_vertical * 0.5);
     const float half_height_normalized = std::tan(fov_radians_vertical);
@@ -40,7 +41,8 @@ Camera::Camera(
 }
 
 Camera::Camera(glm::vec3 position, glm::vec3 look, glm::vec3 up, const std::shared_ptr<Film>& film, float fov_degrees_vertical, float focalLength, float blurDegrees)
-	: position(position), _focalLength(focalLength), _blurDegrees(blurDegrees)
+	: position(position), _focalLength(focalLength), _blurDegrees(blurDegrees),
+    gen(std::random_device{}())
 {
     const float fov_radians_vertical = glm::radians(fov_degrees_vertical * 0.5);
     const float half_height_normalized = std::tan(fov_radians_vertical);
@@ -93,16 +95,11 @@ Ray Camera::GetRay(int x, int y) const
 
 glm::vec3 Camera::RandomEnCirculo() const
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
     // Aleatorio con z = 0 y p.length() < 1
 	std::uniform_real_distribution<float> pDistr(0.0f, 1.0f);
 
-    float rnd = pDistr(gen);
-
-    float r = 1 * sqrt(rnd);
-    float theta = rnd  * 2 * M_PI;
+    float r = 1 * sqrt(pDistr(gen));
+    float theta = pDistr(gen) * 2 * M_PI;
 
     float xP = r * cos(theta);
     float yP = r * sin(theta);

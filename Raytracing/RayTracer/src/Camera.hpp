@@ -44,5 +44,9 @@ private:
     glm::vec3 desenfoqueU;
     glm::vec3 desenfoqueV;
 
+    std::random_device rd;
+    mutable std::mt19937 gen{ rd() };
+    std::uniform_real_distribution<float> pDistr;
+
     glm::vec3 RandomEnCirculo() const;
 };
