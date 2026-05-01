@@ -26,17 +26,18 @@ int main(void)
     std::ofstream out{ "imagen.ppm" };
 
     // pelicula
-    std::shared_ptr<Film> film = std::make_shared<Film>(1920, 1080, out);
-    //std::shared_ptr<Film> film = std::make_shared<Film>(800, 600, out);
+    //std::shared_ptr<Film> film = std::make_shared<Film>(1920, 1080, out);
+    std::shared_ptr<Film> film = std::make_shared<Film>(800, 600, out);
 
     // camara
     glm::vec3 position = { 0.0, 0.0, 3.0 };
     glm::vec3 look = { 0.0, 0.0, -1.0 };
     glm::vec3 up = { 0.0, 1.0, 0.0 };
 
-    std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 60.0, 
-       40.0f, // distancia al plano
-        0.2f); // angulo de desenfoque
+    std::shared_ptr<Camera> cam = std::make_shared<Camera>(position, look, up, film, 
+        60.0, 
+        6.f, // distancia al plano
+        5.f); // angulo de desenfoque
 
     // materiales basicos
     std::shared_ptr<Material> azul = std::make_shared<Material>(BLUE);
@@ -101,7 +102,7 @@ int main(void)
 
     // renderer
     Renderer renderer(film, cam, world);
-    renderer.SetSamples(8);
+    renderer.SetSamples(1024);
     renderer.Render();
 
     return 0;
