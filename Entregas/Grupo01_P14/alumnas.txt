@@ -1,0 +1,4 @@
+Nieves Alonso Gilsanz
+Cynthia Tristán Álvarez
+
+g++ -std=c++17 *.cpp -o main.exe

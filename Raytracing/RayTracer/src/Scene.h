@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-
+#include <vector>
 #include "Shape.h"
 
 class Scene : public Shape
