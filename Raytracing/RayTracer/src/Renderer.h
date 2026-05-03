@@ -22,5 +22,4 @@ private:
 	std::shared_ptr<Camera> _camera;
 	std::shared_ptr<World> _world;
 	std::unique_ptr<CUDABackend> _cudaBackend;
-
 };

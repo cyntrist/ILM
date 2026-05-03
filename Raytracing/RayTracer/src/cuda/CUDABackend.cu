@@ -273,6 +273,7 @@ __device__ vec3 rayColor(
 		if (material.glossFactor <= 0.0f)
 			break;
 
+		++localRayCount;
 		origin = hit.p + hit.normal * 0.001f;
 		direction = glm::reflect(glm::normalize(direction), glm::normalize(hit.normal));
 		throughput = throughput * material.glossFactor;
@@ -307,12 +308,14 @@ __global__ void renderKernel( // parametros
 		+ camera->deltaX * static_cast<float>(x)
 		+ camera->deltaY * static_cast<float>(y);
 	const vec3 direction = glm::normalize(sample - camera->position);
+	unsigned long long localRayCount = 1ULL; // rayo primario
 	const vec3 color = rayColor(
 		shapes, shapeCount,
 		materials, textures,
 		lights, lightCount,
 		camera->position,
 		direction);
+	atomicAdd(rayCount, localRayCount);
 
 	const int idx = (y * width + x) * 4;
 	pixels[idx + 0] = unitTo255(color.x);
@@ -369,6 +372,9 @@ CUDABackend::CUDABackend(
 	if (cudaMalloc(reinterpret_cast<void**>(&_devicePixels), width * height * 4) != cudaSuccess)
 		return;
 
+	if (cudaMalloc(reinterpret_cast<void**>(&_deviceRayCount), sizeof(unsigned long long)) != cudaSuccess)
+		return;
+
 	_valid = true;
 }
 
@@ -380,11 +386,17 @@ CUDABackend::~CUDABackend()
 	cudaFree(_deviceTextures);
 	cudaFree(_deviceLights);
 	cudaFree(_devicePixels);
+	cudaFree(_deviceRayCount);
 }
 
-bool CUDABackend::Render(unsigned char* hostPixels)
+bool CUDABackend::Render(unsigned char* hostPixels, uint64_t& outTotalRays)
 {
 	if (!_valid || hostPixels == nullptr)
+		return false;
+
+	outTotalRays = 0;
+	unsigned long long zero = 0;
+	if (cudaMemcpy(_deviceRayCount, &zero, sizeof(unsigned long long), cudaMemcpyHostToDevice) != cudaSuccess)
 		return false;
 
 	constexpr int blockSize = 16;
@@ -401,7 +413,8 @@ bool CUDABackend::Render(unsigned char* hostPixels)
 		_deviceMaterials,
 		_deviceTextures,
 		_deviceLights,
-		_lightCount);
+		_lightCount,
+		_deviceRayCount);
 
 	if (cudaGetLastError() != cudaSuccess)
 		return false;
@@ -409,5 +422,13 @@ bool CUDABackend::Render(unsigned char* hostPixels)
 	if (cudaDeviceSynchronize() != cudaSuccess)
 		return false;
 
-	return cudaMemcpy(hostPixels, _devicePixels, _width * _height * 4, cudaMemcpyDeviceToHost) == cudaSuccess;
+	unsigned long long totalRays = 0;
+	if (cudaMemcpy(&totalRays, _deviceRayCount, sizeof(unsigned long long), cudaMemcpyDeviceToHost) != cudaSuccess)
+		return false;
+
+	if (cudaMemcpy(hostPixels, _devicePixels, _width * _height * 4, cudaMemcpyDeviceToHost) != cudaSuccess)
+		return false;
+
+	outTotalRays = static_cast<uint64_t>(totalRays);
+	return true;
 }

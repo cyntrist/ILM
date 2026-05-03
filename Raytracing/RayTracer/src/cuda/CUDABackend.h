@@ -86,7 +86,7 @@ public:
 	~CUDABackend();
 
 	bool IsValid() const { return _valid; }
-	bool Render(unsigned char* hostPixels);
+	bool Render(unsigned char* hostPixels, uint64_t& outTotalRays);
 
 private:
 	int _width = 0;
@@ -103,4 +103,5 @@ private:
 	CudaTexture* _deviceTextures = nullptr;
 	CudaLight* _deviceLights = nullptr;
 	unsigned char* _devicePixels = nullptr;
+	unsigned long long* _deviceRayCount = nullptr;
 };

@@ -100,10 +100,25 @@ void SDLViewer::Loop()
         const float renderSeconds = renderTime.count();
         const float renderMs = renderSeconds * 1000.0f;
         const float fps = (renderSeconds > 0.0f) ? (1.0f / renderSeconds) : 0.0f;
+        const Renderer::RenderStats stats = _renderer->GetLastStats();
+        const double primaryRps = (renderSeconds > 0.0f)
+                                      ? static_cast<double>(stats.primaryRays) / renderSeconds
+                                      : 0.0;
+        const double totalRps = (renderSeconds > 0.0f)
+                                    ? static_cast<double>(stats.totalRays) / renderSeconds
+                                    : 0.0;
+        const double primaryMrps = primaryRps / 1.0e6;
+        const double totalMrps = totalRps / 1.0e6;
 
         if (!Show(_film))
             running = false;
 
-        SDL_Log("Render: %.4f ms | FPS: %.2f", renderMs, fps);
+        SDL_Log(
+            "Render: %.4f ms | FPS: %.2f | Primary Rays/s: %.3f M | Total Rays/s: %.3f M | Backend: %s",
+            renderMs,
+            fps,
+            primaryMrps,
+            totalMrps,
+            stats.usedCuda ? "CUDA" : "CPU");
     }
 }
