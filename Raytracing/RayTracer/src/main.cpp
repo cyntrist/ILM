@@ -96,7 +96,7 @@ int main(void)
     world->AddLight(pointLight2);
 
     // renderer
-    Renderer renderer(film, cam, world);
+    Renderer renderer(film, cam, world, true);
 
     // sdl
     SDLViewer viewer(film, &renderer);

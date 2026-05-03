@@ -64,7 +64,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="src\cuda\CUDABackend.cu" />
+    <CudaCompile Include="src\cuda\CUDABackend.cu">
+      <CompileOut Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)bin\%(Filename)%(Extension).obj</CompileOut>
+      <CompileOut Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)bin\%(Filename)%(Extension).obj</CompileOut>
+    </CudaCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -163,6 +166,9 @@
       <AdditionalIncludeDirectories>$(ProjectDir)src\glm;$(ProjectDir)src;$(ProjectDir);$(ProjectDir)src\sdl\include;$(CUDA_PATH)\include;$(ProjectDir)src\cuda</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <CudaCompile>
+      <AdditionalOptions>-std=c++17 --expt-relaxed-constexpr -diag-suppress=20012 -diag-suppress=20013 %(AdditionalOptions)</AdditionalOptions>
+    </CudaCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -181,6 +187,9 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)src\glm;$(ProjectDir)src;$(ProjectDir);$(ProjectDir)src\sdl\include;$(CUDA_PATH)\include;$(ProjectDir)src\cuda</AdditionalIncludeDirectories>
     </ClCompile>
+    <CudaCompile>
+      <AdditionalOptions>-std=c++17 --expt-relaxed-constexpr -diag-suppress=20012 -diag-suppress=20013 %(AdditionalOptions)</AdditionalOptions>
+    </CudaCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -1,41 +1,106 @@
-#include <cuda_runtime.h>
-#include <device_launch_parameters.h>
-#include <stdio.h>
+#pragma once
 
-__global__ void addKernel(int* c, const int* a, const int* b)
+#include "glm/vec3.hpp"
+
+#include <vector>
+
+using vec3 = glm::vec3;
+
+struct CudaCamera
 {
-    int i = threadIdx.x;
-    c[i] = a[i] + b[i];
-}
+	vec3 position;
+	vec3 deltaX;
+	vec3 deltaY;
+	vec3 positionTopLeft;
+};
 
-extern "C" void runCuda()
+enum CudaShapeType
 {
-    const int size = 5;
-    int a[size] = { 1, 2, 3, 4, 5 };
-    int b[size] = { 10, 20, 30, 40, 50 };
-    int c[size] = { 0 };
+	CUDA_SHAPE_SPHERE = 0,
+	CUDA_SHAPE_QUAD = 1
+};
 
-    int* dev_a = nullptr;
-    int* dev_b = nullptr;
-    int* dev_c = nullptr;
+struct CudaShape
+{
+	int type = CUDA_SHAPE_SPHERE;
+	int materialIndex = -1;
 
-    cudaMalloc((void**)&dev_a, size * sizeof(int));
-    cudaMalloc((void**)&dev_b, size * sizeof(int));
-    cudaMalloc((void**)&dev_c, size * sizeof(int));
+	vec3 center;
+	float radius = 0.0f;
 
-    cudaMemcpy(dev_a, a, size * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(dev_b, b, size * sizeof(int), cudaMemcpyHostToDevice);
+	vec3 q;
+	vec3 u;
+	vec3 v;
+};
 
-    addKernel << <1, size >> > (dev_c, dev_a, dev_b);
+enum CudaTextureType
+{
+	CUDA_TEXTURE_CONSTANT = 0,
+	CUDA_TEXTURE_CHECKER = 1
+};
 
-    cudaDeviceSynchronize();
+struct CudaTexture
+{
+	int type = CUDA_TEXTURE_CONSTANT;
+	vec3 color;
+	int texture1 = -1;
+	int texture2 = -1;
+	int rows = 1;
+	int columns = 1;
+};
 
-    cudaMemcpy(c, dev_c, size * sizeof(int), cudaMemcpyDeviceToHost);
+struct CudaMaterial
+{
+	vec3 color;
+	float glossFactor = 0.0f;
+	int textureIndex = -1;
+};
 
-    for (int i = 0; i < size; ++i)
-        printf("%d + %d = %d\n", a[i], b[i], c[i]);
+enum CudaLightType
+{
+	CUDA_LIGHT_POINT = 0,
+	CUDA_LIGHT_DIRECTIONAL = 1
+};
 
-    cudaFree(dev_a);
-    cudaFree(dev_b);
-    cudaFree(dev_c);
-}
+struct CudaLight
+{
+	int type = CUDA_LIGHT_POINT;
+	int shadow = 0;
+	int glossPower = 400;
+	vec3 position;
+	vec3 direction;
+	vec3 color;
+};
+
+class CUDABackend
+{
+public:
+	CUDABackend(
+		int width,
+		int height,
+		const CudaCamera& camera,
+		const std::vector<CudaShape>& shapes,
+		const std::vector<CudaMaterial>& materials,
+		const std::vector<CudaTexture>& textures,
+		const std::vector<CudaLight>& lights);
+	~CUDABackend();
+
+	bool IsValid() const { return _valid; }
+	bool Render(unsigned char* hostPixels);
+
+private:
+	int _width = 0;
+	int _height = 0;
+	bool _valid = false;
+	int _shapeCount = 0;
+	int _materialCount = 0;
+	int _textureCount = 0;
+	int _lightCount = 0;
+
+	CudaCamera* _deviceCamera = nullptr;
+	CudaShape* _deviceShapes = nullptr;
+	CudaMaterial* _deviceMaterials = nullptr;
+	CudaTexture* _deviceTextures = nullptr;
+	CudaLight* _deviceLights = nullptr;
+	unsigned char* _devicePixels = nullptr;
+};
