@@ -2,7 +2,7 @@
 #include <cmath>
 
 #include "Sphere.h"
-#include "ray.hpp"
+#include "Ray.hpp"
 #include "glm/geometric.hpp"
 
 Sphere::Sphere(point3 center, float radius, const std::shared_ptr<Material>& material)
