@@ -11,6 +11,7 @@ public:
 
     static unsigned char UnitTo255(float v);
     void AddPixel(Color color);
+    void AddPixel(int x, int y, Color color);
 
     int GetTamX() const { return _tamX; }
     int GetTamY() const { return _tamY; }

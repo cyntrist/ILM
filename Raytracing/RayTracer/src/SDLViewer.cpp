@@ -1,8 +1,12 @@
 #include "SDLViewer.h"
 #include <SDL3/SDL.h>
+#include <chrono>
+#include <iomanip>
 
-SDLViewer::SDLViewer(int width, int height, const char* title)
-    : _width(width), _height(height)
+using hi_clock = std::chrono::high_resolution_clock;
+
+SDLViewer::SDLViewer(const std::shared_ptr<Film>& film, Renderer* renderer, const char* title)
+    : _width(film->GetTamX()), _height(film->GetTamY()), _film(film), _renderer(renderer)
 {
     if (!SDL_Init(SDL_INIT_VIDEO))
     {
@@ -10,7 +14,7 @@ SDLViewer::SDLViewer(int width, int height, const char* title)
         return;
     }
 
-    if (!SDL_CreateWindowAndRenderer(title, _width, _height, SDL_WINDOW_RESIZABLE, &_window, &_renderer))
+    if (!SDL_CreateWindowAndRenderer(title, _width, _height, SDL_WINDOW_RESIZABLE, &_window, &_sdlRenderer))
     {
         SDL_Log("SDL_CreateWindowAndRenderer failed: %s", SDL_GetError());
         SDL_Quit();
@@ -18,7 +22,7 @@ SDLViewer::SDLViewer(int width, int height, const char* title)
     }
 
     _texture = SDL_CreateTexture(
-        _renderer,
+        _sdlRenderer,
         SDL_PIXELFORMAT_RGBA32,
         SDL_TEXTUREACCESS_STREAMING,
         _width,
@@ -27,10 +31,10 @@ SDLViewer::SDLViewer(int width, int height, const char* title)
     if (!_texture)
     {
         SDL_Log("SDL_CreateTexture failed: %s", SDL_GetError());
-        SDL_DestroyRenderer(_renderer);
+        SDL_DestroyRenderer(_sdlRenderer);
         SDL_DestroyWindow(_window);
         SDL_Quit();
-        _renderer = nullptr;
+        _sdlRenderer = nullptr;
         _window = nullptr;
         return;
     }
@@ -41,43 +45,38 @@ SDLViewer::SDLViewer(int width, int height, const char* title)
 SDLViewer::~SDLViewer()
 {
     if (_texture)
-    {
         SDL_DestroyTexture(_texture);
-    }
 
-    if (_renderer)
-    {
-        SDL_DestroyRenderer(_renderer);
-    }
+    if (_sdlRenderer)
+        SDL_DestroyRenderer(_sdlRenderer);
 
     if (_window)
-    {
         SDL_DestroyWindow(_window);
-    }
 
     if (_initialized)
-    {
         SDL_Quit();
-    }
 }
 
-bool SDLViewer::Show(const Film& film)
+bool SDLViewer::Show(const std::shared_ptr<Film>& film) const
 {
     if (!_initialized)
-    {
         return false;
-    }
 
-    if (!SDL_UpdateTexture(_texture, nullptr, film.Data(), film.Pitch()))
-    {
+    if (!SDL_UpdateTexture(_texture, nullptr, film->Data(), film->Pitch()))
         SDL_Log("SDL_UpdateTexture failed: %s", SDL_GetError());
-    }
 
-    SDL_RenderClear(_renderer);
-    SDL_RenderTexture(_renderer, _texture, nullptr, nullptr);
-    SDL_RenderPresent(_renderer);
+    SDL_RenderClear(_sdlRenderer);
+    SDL_RenderTexture(_sdlRenderer, _texture, nullptr, nullptr);
+    SDL_RenderPresent(_sdlRenderer);
 
-    bool running = true;
+    return true;
+}
+
+void SDLViewer::Loop()
+{
+    if (!_initialized)
+        return;
+
     while (running)
     {
         SDL_Event event;
@@ -93,8 +92,18 @@ bool SDLViewer::Show(const Film& film)
             }
         }
 
-        SDL_Delay(16);
-    }
+        auto start = hi_clock::now();
+        _renderer->Render();
+        auto end = hi_clock::now();
+        std::chrono::duration<float> renderTime = end - start;
 
-    return true;
+        const float renderSeconds = renderTime.count();
+        const float renderMs = renderSeconds * 1000.0f;
+        const float fps = (renderSeconds > 0.0f) ? (1.0f / renderSeconds) : 0.0f;
+
+        if (!Show(_film))
+            running = false;
+
+        SDL_Log("Render: %.4f ms | FPS: %.2f", renderMs, fps);
+    }
 }

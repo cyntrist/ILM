@@ -28,7 +28,7 @@
 int main(void)
 {
     // pelicula
-    auto film = std::make_shared<Film>(1080, 720);
+    auto film = std::make_shared<Film>(1920, 1080);
 
     glm::vec3 position = { 0.0f, 0.0f, 3.0f };
     glm::vec3 look = { 0.0f, 0.0f, -1.0f };
@@ -97,12 +97,10 @@ int main(void)
 
     // renderer
     Renderer renderer(film, cam, world);
-    renderer.Render();
 
     // sdl
-    SDLViewer viewer(film->GetTamX(), film->GetTamY());
-    if (!viewer.Show(*film))
-        return 1;
+    SDLViewer viewer(film, &renderer);
+    viewer.Loop();
 
     return 0;
 }
