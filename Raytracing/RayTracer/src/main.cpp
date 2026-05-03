@@ -25,6 +25,8 @@
 #include "checkML.h"
 #include "checkMLNew.h"
 
+extern "C" void runCuda();
+
 int main(void)
 {
     // pelicula
@@ -97,6 +99,8 @@ int main(void)
 
     // renderer
     Renderer renderer(film, cam, world);
+
+    runCuda();
 
     // sdl
     SDLViewer viewer(film, &renderer);
