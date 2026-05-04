@@ -9,6 +9,27 @@
 
 using hi_clock = std::chrono::high_resolution_clock;
 
+namespace
+{
+const char* GetBuildPlatform()
+{
+#ifdef _WIN64
+    return "Win64";
+#else
+    return "Other";
+#endif
+}
+
+const char* GetBuildConfiguration()
+{
+#ifdef _DEBUG
+    return "Debug";
+#else
+    return "Release";
+#endif
+}
+}
+
 SDLViewer::SDLViewer(const std::shared_ptr<Film>& film, Renderer* renderer, const char* title)
     : _width(film->GetTamX()), _height(film->GetTamY()), _film(film), _renderer(renderer)
 {
@@ -49,7 +70,7 @@ SDLViewer::SDLViewer(const std::shared_ptr<Film>& film, Renderer* renderer, cons
     const bool writeHeader = !std::filesystem::exists(metricsPath);
     _metricsFile.open(metricsPath, std::ios::out | std::ios::app);
     if (_metricsFile.is_open() && writeHeader)
-        _metricsFile << "backend,render_ms,frame_ms,render_fps,frame_fps\n";
+        _metricsFile << "backend,platform,configuration,width,height,render_ms,frame_ms,render_fps,frame_fps\n";
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -175,6 +196,10 @@ void SDLViewer::Loop()
         {
             _metricsFile
                 << _renderer->GetBackendUsed() << ','
+                << GetBuildPlatform() << ','
+                << GetBuildConfiguration() << ','
+                << _width << ','
+                << _height << ','
                 << renderMs << ','
                 << frameMs << ','
                 << fpsRenderOnly << ','
@@ -182,6 +207,6 @@ void SDLViewer::Loop()
             _metricsFile.flush();
         }
 
-        //SDL_Log("backend = %s | render_ms = %.4f | frame_ms = %.4f | render_fps = %.2f | frame_fps = %.2f",_renderer->GetBackendUsed(), renderMs, frameMs, fpsRenderOnly, fpsFrameTotal);
+        SDL_Log("backend = %s | render_ms = %.4f | frame_ms = %.4f | render_fps = %.2f | frame_fps = %.2f",_renderer->GetBackendUsed(), renderMs, frameMs, fpsRenderOnly, fpsFrameTotal);
     }
 }
