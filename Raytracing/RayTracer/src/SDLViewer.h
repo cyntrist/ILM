@@ -22,5 +22,6 @@ private:
     struct SDL_Renderer* _sdlRenderer = nullptr;
     struct SDL_Texture* _texture = nullptr;
     bool _initialized = false;
+    bool _imguiInitialized = false;
     bool running = true;
 };

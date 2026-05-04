@@ -2,6 +2,9 @@
 #include <SDL3/SDL.h>
 #include <chrono>
 #include <iomanip>
+#include "imgui.h"
+#include "backends/imgui_impl_sdl3.h"
+#include "backends/imgui_impl_sdlrenderer3.h"
 
 using hi_clock = std::chrono::high_resolution_clock;
 
@@ -40,10 +43,41 @@ SDLViewer::SDLViewer(const std::shared_ptr<Film>& film, Renderer* renderer, cons
     }
 
     _initialized = true;
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.FontGlobalScale = 2.0f;
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(2.0f);
+
+    if (!ImGui_ImplSDL3_InitForSDLRenderer(_window, _sdlRenderer))
+    {
+        SDL_Log("ImGui_ImplSDL3_InitForSDLRenderer failed");
+        return;
+    }
+    if (!ImGui_ImplSDLRenderer3_Init(_sdlRenderer))
+    {
+        SDL_Log("ImGui_ImplSDLRenderer3_Init failed");
+        ImGui_ImplSDL3_Shutdown();
+        return;
+    }
+
+    _imguiInitialized = true;
 }
 
 SDLViewer::~SDLViewer()
 {
+    if (_imguiInitialized)
+    {
+        ImGui_ImplSDLRenderer3_Shutdown();
+        ImGui_ImplSDL3_Shutdown();
+        ImGui::DestroyContext();
+    }
+
     if (_texture)
         SDL_DestroyTexture(_texture);
 
@@ -67,6 +101,19 @@ bool SDLViewer::Show(const std::shared_ptr<Film>& film) const
 
     SDL_RenderClear(_sdlRenderer);
     SDL_RenderTexture(_sdlRenderer, _texture, nullptr, nullptr);
+
+    if (_imguiInitialized)
+    {
+        ImGui_ImplSDLRenderer3_NewFrame();
+        ImGui_ImplSDL3_NewFrame();
+        ImGui::NewFrame();
+
+        ImGui::ShowMetricsWindow();
+
+        ImGui::Render();
+        ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), _sdlRenderer);
+    }
+
     SDL_RenderPresent(_sdlRenderer);
 
     return true;
@@ -82,6 +129,9 @@ void SDLViewer::Loop()
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
+            if (_imguiInitialized)
+                ImGui_ImplSDL3_ProcessEvent(&event);
+
             if (event.type == SDL_EVENT_QUIT)
             {
                 running = false;
