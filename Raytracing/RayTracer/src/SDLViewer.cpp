@@ -126,6 +126,8 @@ void SDLViewer::Loop()
 
     while (running)
     {
+        auto frameStart = hi_clock::now();
+
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -149,11 +151,27 @@ void SDLViewer::Loop()
 
         const float renderSeconds = renderTime.count();
         const float renderMs = renderSeconds * 1000.0f;
-        const float fps = (renderSeconds > 0.0f) ? (1.0f / renderSeconds) : 0.0f;
+        const float fpsRenderOnly = (renderSeconds > 0.0f) ? (1.0f / renderSeconds) : 0.0f;
 
         if (!Show(_film))
             running = false;
 
-        SDL_Log("Render: %.4f ms | FPS: %.2f", renderMs, fps);
+        auto frameEnd = hi_clock::now();
+        std::chrono::duration<float> frameTime = frameEnd - frameStart;
+        const float frameSeconds = frameTime.count();
+        const float frameMs = frameSeconds * 1000.0f;
+        const float fpsFrameTotal = (frameSeconds > 0.0f) ? (1.0f / frameSeconds) : 0.0f;
+
+        float imguiFps = 0.0f;
+        float imguiMs = 0.0f;
+        if (_imguiInitialized)
+        {
+            const ImGuiIO& io = ImGui::GetIO();
+            imguiFps = io.Framerate;
+            imguiMs = (io.Framerate > 0.0f) ? (1000.0f / io.Framerate) : 0.0f;
+        }
+
+        SDL_Log("RenderOnly: %.4f ms | %.2f FPS || FrameTotal: %.4f ms | %.2f FPS || ImGui: %.4f ms | %.2f FPS",
+            renderMs, fpsRenderOnly, frameMs, fpsFrameTotal, imguiMs, imguiFps);
     }
 }
