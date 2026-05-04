@@ -145,10 +145,10 @@ std::vector<CudaLight> FlattenLights(const std::vector<std::shared_ptr<Light>>& 
 	return flatLights;
 }
 
-Renderer::Renderer(std::shared_ptr<Film> film, std::shared_ptr<Camera> camera, std::shared_ptr<World> world, bool gpuMode)
+Renderer::Renderer(std::shared_ptr<Film> film, std::shared_ptr<Camera> camera, std::shared_ptr<World> world, bool cudaEnabled)
 	: _film(film), _camera(camera), _world(world)
 {
-	if (!gpuMode) return;
+	if (!cudaEnabled) return;
 
 	std::vector<CudaShape> shapes;
 	std::vector<CudaMaterial> materials;
@@ -173,6 +173,8 @@ Renderer::Renderer(std::shared_ptr<Film> film, std::shared_ptr<Camera> camera, s
 		materials,
 		textures,
 		FlattenLights(_world->GetLights()));
+
+	_backendUsed = BackendUsed::CUDA;
 }
 
 Renderer::~Renderer() {}
@@ -181,8 +183,12 @@ void Renderer::Render()
 {
 	if (_cudaBackend != nullptr && _cudaBackend->Render(_film->MutableData()))
 		return;
-
 	RenderCPU();
+}
+
+const char* Renderer::GetBackendUsed() const
+{
+	return (_backendUsed == BackendUsed::CUDA) ? "CUDA" : "CPU";
 }
 
 void Renderer::RenderCPU()

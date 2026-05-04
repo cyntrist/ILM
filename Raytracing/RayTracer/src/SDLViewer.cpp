@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include "backends/imgui_impl_sdl3.h"
 #include "backends/imgui_impl_sdlrenderer3.h"
+#include <filesystem>
 
 using hi_clock = std::chrono::high_resolution_clock;
 
@@ -44,15 +45,15 @@ SDLViewer::SDLViewer(const std::shared_ptr<Film>& film, Renderer* renderer, cons
 
     _initialized = true;
 
+    const auto metricsPath = std::filesystem::current_path() / "metrics.csv";
+    const bool writeHeader = !std::filesystem::exists(metricsPath);
+    _metricsFile.open(metricsPath, std::ios::out | std::ios::app);
+    if (_metricsFile.is_open() && writeHeader)
+        _metricsFile << "backend,render_ms,frame_ms,render_fps,frame_fps\n";
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
-
-    ImGuiIO& io = ImGui::GetIO();
-    io.FontGlobalScale = 2.0f;
-
-    ImGuiStyle& style = ImGui::GetStyle();
-    style.ScaleAllSizes(2.0f);
 
     if (!ImGui_ImplSDL3_InitForSDLRenderer(_window, _sdlRenderer))
     {
@@ -66,11 +67,19 @@ SDLViewer::SDLViewer(const std::shared_ptr<Film>& film, Renderer* renderer, cons
         return;
     }
 
+    ImGuiIO& io = ImGui::GetIO();
+    io.FontGlobalScale = 2.0f;
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(2.0f);
+
     _imguiInitialized = true;
 }
 
 SDLViewer::~SDLViewer()
 {
+    if (_metricsFile.is_open())
+        _metricsFile.close();
+
     if (_imguiInitialized)
     {
         ImGui_ImplSDLRenderer3_Shutdown();
@@ -162,16 +171,17 @@ void SDLViewer::Loop()
         const float frameMs = frameSeconds * 1000.0f;
         const float fpsFrameTotal = (frameSeconds > 0.0f) ? (1.0f / frameSeconds) : 0.0f;
 
-        float imguiFps = 0.0f;
-        float imguiMs = 0.0f;
-        if (_imguiInitialized)
+        if (_metricsFile.is_open())
         {
-            const ImGuiIO& io = ImGui::GetIO();
-            imguiFps = io.Framerate;
-            imguiMs = (io.Framerate > 0.0f) ? (1000.0f / io.Framerate) : 0.0f;
+            _metricsFile
+                << _renderer->GetBackendUsed() << ','
+                << renderMs << ','
+                << frameMs << ','
+                << fpsRenderOnly << ','
+                << fpsFrameTotal << '\n';
+            _metricsFile.flush();
         }
 
-        SDL_Log("RenderOnly: %.4f ms | %.2f FPS || FrameTotal: %.4f ms | %.2f FPS || ImGui: %.4f ms | %.2f FPS",
-            renderMs, fpsRenderOnly, frameMs, fpsFrameTotal, imguiMs, imguiFps);
+        //SDL_Log("backend = %s | render_ms = %.4f | frame_ms = %.4f | render_fps = %.2f | frame_fps = %.2f",_renderer->GetBackendUsed(), renderMs, frameMs, fpsRenderOnly, fpsFrameTotal);
     }
 }
