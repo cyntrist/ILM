@@ -179,32 +179,19 @@ Renderer::~Renderer() {}
 
 void Renderer::Render()
 {
-	_lastStats.primaryRays = static_cast<uint64_t>(_film->GetTamX()) * static_cast<uint64_t>(_film->GetTamY());
-	_lastStats.usedCuda = false;
-
-	if (_cudaBackend != nullptr)
-	{
-		uint64_t cudaTotalRays = 0;
-		if (_cudaBackend->Render(_film->MutableData(), cudaTotalRays))
-		{
-			_lastStats.totalRays = cudaTotalRays;
-			_lastStats.usedCuda = true;
-			return;
-		}
-	}
+	if (_cudaBackend != nullptr && _cudaBackend->Render(_film->MutableData()))
+		return;
 
 	RenderCPU();
-	_lastStats.totalRays = _cpuRayCounter;
 }
 
 void Renderer::RenderCPU()
 {
-	_cpuRayCounter = 0;
 	for (int y = 0; y < _film->GetTamY(); ++y)
 	{
 		for (int x = 0; x < _film->GetTamX(); ++x)
 		{
-			++_cpuRayCounter;
+			//std::cout << "Escribiendo pixel numero " << x << " " << y << " de ancho " << _film->GetTamX() << " e y " << _film->GetTamY() << ".\n";
 			const Ray ray_primary = _camera->GetRay(x, y);
 			const Color c = RayColor(ray_primary, 10);
 			_film->AddPixel(x, y, c);
@@ -231,7 +218,6 @@ Color Renderer::RayColor(const Ray& r, int k)
 				float maxDist = glm::length(dir);
 				dir = glm::normalize(dir);
 
-				++_cpuRayCounter;
 				Ray shadowRay(origin, dir);
 
 				if (_world->GetScene()->Intersect(shadowRay, 0.001f, maxDist))
@@ -249,7 +235,6 @@ Color Renderer::RayColor(const Ray& r, int k)
 			const glm::vec3 normal = glm::normalize(ii.normal);
 			const glm::vec3 dir = glm::reflect(glm::normalize(r.Direction()), normal);
 
-			++_cpuRayCounter;
 			Ray shadowRay(hitPos, dir);
 
 			color += ii.m->GetGlossFactor() * RayColor(shadowRay, k - 1);
