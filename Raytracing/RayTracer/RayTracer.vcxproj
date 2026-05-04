@@ -35,6 +35,12 @@
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\World.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\imgui\backends\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="src\imgui\backends\imgui_impl_sdlrenderer3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.hpp" />
@@ -163,7 +169,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\glm;$(ProjectDir)src;$(ProjectDir);$(ProjectDir)src\sdl\include;$(CUDA_PATH)\include;$(ProjectDir)src\cuda</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\imgui;$(ProjectDir)src\glm;$(ProjectDir)src;$(ProjectDir);$(ProjectDir)src\sdl\include;$(CUDA_PATH)\include;$(ProjectDir)src\cuda</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <CudaCompile>
@@ -185,7 +191,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\glm;$(ProjectDir)src;$(ProjectDir);$(ProjectDir)src\sdl\include;$(CUDA_PATH)\include;$(ProjectDir)src\cuda</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src\imgui;$(ProjectDir)src\glm;$(ProjectDir)src;$(ProjectDir);$(ProjectDir)src\sdl\include;$(CUDA_PATH)\include;$(ProjectDir)src\cuda</AdditionalIncludeDirectories>
     </ClCompile>
     <CudaCompile>
       <AdditionalOptions>-std=c++17 --expt-relaxed-constexpr -diag-suppress=20012 -diag-suppress=20013 %(AdditionalOptions)</AdditionalOptions>
